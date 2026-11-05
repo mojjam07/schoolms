@@ -4,6 +4,7 @@ import { SCHOOL } from '../../config/school';
 import { audit } from '../../services/audit';
 import { notifyUsers, parentsOfStudents, safely } from '../notifications/notifications.service';
 import { TERM_NAMES } from '../fees/fees.service';
+import { studentSummary } from '../attendance/attendance.service';
 import { listComponents } from './components.service';
 import { Band, getBands, gradeFor } from './grading.service';
 import type { Role } from '../users/roles';
@@ -225,6 +226,7 @@ export async function reportCard(studentId: string, termId: string, mode: 'publi
     components: res.components, maxTotal: res.maxTotal,
     subjects: me.subjects.map((s) => ({ name: s.subjectName, scores: s.scores, total: s.total, percent: s.percent, grade: s.grade, remark: s.remark, position: s.position, classAverage: s.classAverage })),
     summary: { ranked: me.ranked, totalMarks: me.totalMarks, totalPossible: me.totalPossible, average: me.average, grade: me.grade, remark: me.remark, position: me.position, outOf: res.rankedCount, studentsInClass: res.students.length, missing: me.incompleteSubjects },
+    attendance: await studentSummary(studentId, termId),
     remark, gradingScale: [...bands].sort((a, b) => b.minPercent - a.minPercent),
   };
 }

@@ -182,4 +182,15 @@ How results are worked out
 
 Tests: `tests/phase7.test.ts` (87 API checks: grading validation, boundaries such as 74.5% = B2 and 75% = A1, ties, incomplete students, publishing rules, privacy between families, locking, corrections, snapshot) plus a browser walkthrough of the full cycle and phone widths.
 **Not built yet** (still on your original list): attendance and absence explanations, examination schedules and timetables, parent-teacher messaging, CSV student import, results history and progress across terms, and a final security and deployment pass.
-# schoolms
+
+## Phase 7b: attendance and absence explanations (API only: no screens yet)
+
+**This step is backend only.** The rules below are built and tested, but there are no pages for them yet, and the report card page does not display the attendance figures yet (the API already returns them).
+
+- **Daily register, one per class per day, taken by the class's form teacher.** The administrator assigns one form teacher per class per session. Each student is marked present, late or absent. The register must list every active student exactly once; withdrawn students are not on it. A register cannot be taken for a future date or a date outside every term.
+- **Corrections:** the form teacher can take or correct a register for 7 days; after that only the administrator can. Every register and every correction is audited, and corrections record what changed.
+- **Counting:** "times the school opened" is the number of registers that list the student. *Late counts as present* (they were in school). Percent present is worked out from those.
+- **Parents** are told in-app when their child is marked absent or late (once per child per day per status). They can explain an absence, or a late arrival, only for a day the register actually shows it, for their own child only. The form teacher is notified. The form teacher or administrator accepts or declines with a note and the parent is told. An accepted explanation excuses the absence in the figures but the register itself is never altered. A reviewed explanation cannot be edited by the parent. Parents and students cannot change any register.
+- **Views (API):** a form teacher's class summary, the administrator's "which registers were taken today" overview, a parent's child summary with the days missed or late and the school's replies, and a student's own record (read only). The report card API now includes the attendance block.
+
+Tests: `tests/phase7b.test.ts` (59 checks). Run suites one at a time against a freshly started API.
