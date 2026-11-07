@@ -37,6 +37,7 @@ import Classes from './pages/admin/Classes';
 import Accounts from './pages/admin/Accounts';
 import Students from './pages/admin/Students';
 import Teaching from './pages/admin/Teaching';
+import FormTeachers from './pages/admin/FormTeachers';
 import Guardians from './pages/admin/Guardians';
 import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
@@ -86,6 +87,7 @@ export default function App() {
           <Route path="accounts" element={<Accounts />} />
           <Route path="students" element={<Students />} />
           <Route path="teaching" element={<Teaching />} />
+          <Route path="form-teachers" element={<FormTeachers />} />
           <Route path="guardians" element={<Guardians />} />
           <Route path="grading" element={<Grading />} />
           <Route path="results" element={<AdminResults />} />
