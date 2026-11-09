@@ -183,9 +183,9 @@ How results are worked out
 Tests: `tests/phase7.test.ts` (87 API checks: grading validation, boundaries such as 74.5% = B2 and 75% = A1, ties, incomplete students, publishing rules, privacy between families, locking, corrections, snapshot) plus a browser walkthrough of the full cycle and phone widths.
 **Not built yet** (still on your original list): attendance and absence explanations, examination schedules and timetables, parent-teacher messaging, CSV student import, results history and progress across terms, and a final security and deployment pass.
 
-## Phase 7b: attendance and absence explanations (API only: no screens yet)
+## Phase 7b: attendance and absence explanations
 
-**This step is backend only.** The rules below are built and tested, but there are no pages for them yet, and the report card page does not display the attendance figures yet (the API already returns them).
+**Screens built so far:** the administrator's *Form teachers* page (`/admin/form-teachers`), the form teacher's *Attendance* register (`/teacher/attendance`), and the parent's *Attendance* page with the absence-explanation form (`/parent/attendance`). **Still without screens:** the teacher/administrator queue for accepting or declining explanations, the administrator's daily overview and class summary, the student's own attendance view, and the attendance block on the report card page (the API already returns all of these).
 
 - **Daily register, one per class per day, taken by the class's form teacher.** The administrator assigns one form teacher per class per session. Each student is marked present, late or absent. The register must list every active student exactly once; withdrawn students are not on it. A register cannot be taken for a future date or a date outside every term.
 - **Corrections:** the form teacher can take or correct a register for 7 days; after that only the administrator can. Every register and every correction is audited, and corrections record what changed.

@@ -6,6 +6,7 @@ export const TeacherLayout = () => (
     { to: '/teacher/notes', label: 'Lesson notes' },
     { to: '/teacher/videos', label: 'Video lessons' },
     { to: '/teacher/assignments', label: 'Assignments' },
+    { to: '/teacher/attendance', label: 'Attendance' },
     { to: '/teacher/scores', label: 'Scores' },
   ]} />
 );
@@ -22,6 +23,7 @@ export const StudentLayout = () => (
 export const ParentLayout = () => (
   <PortalLayout roleLabel="Parent or guardian" notificationsPath="/parent/notifications" nav={[
     { to: '/parent', label: 'My children', end: true },
+    { to: '/parent/attendance', label: 'Attendance' },
     { to: '/parent/results', label: 'Results' },
     { to: '/parent/fees', label: 'School fees' },
   ]} />

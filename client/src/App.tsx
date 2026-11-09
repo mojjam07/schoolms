@@ -16,8 +16,10 @@ import Grading from './pages/admin/Grading';
 import AdminResults from './pages/admin/Results';
 import ReportPreview from './pages/admin/ReportPreview';
 import TeacherScores from './pages/teacher/Scores';
+import TeacherAttendance from './pages/teacher/Attendance';
 import { StudentResults, StudentReportCard } from './pages/student/Results';
 import { ParentResults, ParentReportCard } from './pages/parent/Results';
+import ParentAttendance from './pages/parent/Attendance';
 import ReceiptPage from './pages/Receipt';
 import ParentFees from './pages/parent/Fees';
 import ParentFeeDetail from './pages/parent/FeeDetail';
@@ -112,6 +114,7 @@ export default function App() {
           <Route path="assignments" element={<TeacherAssignments />} />
           <Route path="assignments/:id" element={<TeacherAssignmentDetail />} />
           <Route path="scores" element={<TeacherScores />} />
+          <Route path="attendance" element={<TeacherAttendance />} />
           <Route path="notifications" element={<Notifications />} />
         </Route>
       </Route>
@@ -129,6 +132,7 @@ export default function App() {
       <Route element={<RequireRole role="parent" />}>
         <Route path="/parent" element={<ParentLayout />}>
           <Route index element={<ParentHome />} />
+          <Route path="attendance" element={<ParentAttendance />} />
           <Route path="results" element={<ParentResults />} />
           <Route path="results/:studentId/:termId" element={<ParentReportCard />} />
           <Route path="fees" element={<ParentFees />} />
