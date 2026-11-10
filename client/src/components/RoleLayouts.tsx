@@ -16,6 +16,7 @@ export const StudentLayout = () => (
     { to: '/student', label: 'My class', end: true },
     { to: '/student/learning', label: 'My lessons' },
     { to: '/student/assignments', label: 'Assignments' },
+    { to: '/student/attendance', label: 'Attendance' },
     { to: '/student/results', label: 'My results' },
   ]} />
 );

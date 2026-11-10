@@ -61,3 +61,8 @@ export const gradeFor = (bands: { minPercent: number; grade: string }[], percent
   return [...bands].sort((a, b) => b.minPercent - a.minPercent).find((b) => b.minPercent <= p)?.grade ?? null;
 };
 export const num = (n: number | null | undefined, digits = 2) => (n === null || n === undefined ? '-' : String(Math.round(n * 10 ** digits) / 10 ** digits));
+
+// Attendance dates are Lagos calendar days (YYYY-MM-DD), the same as the API.
+export const lagosToday = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Africa/Lagos' });
+export const fmtDay = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-NG', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+export const fmtDayLong = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('en-NG', { weekday: 'long', day: 'numeric', month: 'long' });

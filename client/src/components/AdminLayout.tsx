@@ -7,6 +7,7 @@ const NAV = [
   { to: '/admin/accounts', label: 'Accounts' },
   { to: '/admin/students', label: 'Students and classes' },
   { to: '/admin/teaching', label: 'Teaching assignments' },
+  { to: '/admin/attendance', label: 'Attendance' },
   { to: '/admin/form-teachers', label: 'Form teachers' },
   { to: '/admin/guardians', label: 'Guardians' },
   { to: '/admin/grading', label: 'Grading and assessment' },

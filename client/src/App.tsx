@@ -17,6 +17,13 @@ import AdminResults from './pages/admin/Results';
 import ReportPreview from './pages/admin/ReportPreview';
 import TeacherScores from './pages/teacher/Scores';
 import TeacherAttendance from './pages/teacher/Attendance';
+import TeacherExplanations from './pages/teacher/AttendanceExplanations';
+import TeacherAttendanceSummary from './pages/teacher/AttendanceSummary';
+import AttendanceOverview from './pages/admin/AttendanceOverview';
+import AttendanceRegister from './pages/admin/AttendanceRegister';
+import AdminExplanations from './pages/admin/AttendanceExplanations';
+import AdminAttendanceSummary from './pages/admin/AttendanceSummary';
+import StudentAttendance from './pages/student/Attendance';
 import { StudentResults, StudentReportCard } from './pages/student/Results';
 import { ParentResults, ParentReportCard } from './pages/parent/Results';
 import ParentAttendance from './pages/parent/Attendance';
@@ -89,6 +96,10 @@ export default function App() {
           <Route path="accounts" element={<Accounts />} />
           <Route path="students" element={<Students />} />
           <Route path="teaching" element={<Teaching />} />
+          <Route path="attendance" element={<AttendanceOverview />} />
+          <Route path="attendance/register" element={<AttendanceRegister />} />
+          <Route path="attendance/explanations" element={<AdminExplanations />} />
+          <Route path="attendance/summary" element={<AdminAttendanceSummary />} />
           <Route path="form-teachers" element={<FormTeachers />} />
           <Route path="guardians" element={<Guardians />} />
           <Route path="grading" element={<Grading />} />
@@ -115,6 +126,8 @@ export default function App() {
           <Route path="assignments/:id" element={<TeacherAssignmentDetail />} />
           <Route path="scores" element={<TeacherScores />} />
           <Route path="attendance" element={<TeacherAttendance />} />
+          <Route path="attendance/explanations" element={<TeacherExplanations />} />
+          <Route path="attendance/summary" element={<TeacherAttendanceSummary />} />
           <Route path="notifications" element={<Notifications />} />
         </Route>
       </Route>
@@ -124,6 +137,7 @@ export default function App() {
           <Route path="learning" element={<Learning />} />
           <Route path="assignments" element={<StudentAssignments />} />
           <Route path="assignments/:id" element={<StudentAssignmentDetail />} />
+          <Route path="attendance" element={<StudentAttendance />} />
           <Route path="results" element={<StudentResults />} />
           <Route path="results/:termId" element={<StudentReportCard />} />
           <Route path="notifications" element={<Notifications />} />

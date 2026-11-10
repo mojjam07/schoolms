@@ -77,7 +77,7 @@ export interface ReportCardData {
   components: AssessmentColumn[]; maxTotal: number;
   subjects: { name: string; scores: Record<string, number | null>; total: number | null; percent: number | null; grade: string | null; remark: string | null; position: number | null; classAverage: number | null }[];
   summary: { ranked: boolean; totalMarks: number | null; totalPossible: number | null; average: number | null; grade: string | null; remark: string | null; position: number | null; outOf: number; studentsInClass: number; missing: string[] };
-  remark: string | null; gradingScale: Band[];
+  remark: string | null; gradingScale: Band[]; attendance?: AttendanceSummary | null;
 }
 export interface PublishedTerm { termId: string; termName: string; sessionName: string; publishedAt: string }
 export interface ResultsStatus { term: { id: string; name: string; sessionName: string }; classes: { classId: string; className: string; students: number; subjectsWithScores: number; studentsComplete: number; studentsIncomplete: number; publishedAt: string | null }[] }
@@ -90,3 +90,9 @@ export interface ScoreSheet {
   components: AssessmentColumn[]; maxTotal: number; published: boolean; locked: boolean; bands: Band[];
   students: { studentId: string; name: string; admissionNumber: string | null; scores: Record<string, number | null>; total: number | null; percent: number | null; grade: string | null }[];
 }
+
+// ---- attendance ----
+export interface AttendanceSummary { opened: number; present: number; onTime: number; late: number; absent: number; excused: number; unexplainedAbsent: number; percentPresent: number | null }
+export interface ExplanationRow { id: string; studentName: string; className: string; date: string; attendance: 'present' | 'late' | 'absent'; reason: string; submittedBy: string; status: 'pending' | 'accepted' | 'declined'; reviewNote: string | null; submittedAt: string }
+export interface DayStatusRow { classId: string; className: string; formTeacher: string | null; taken: boolean; present: number; late: number; absent: number }
+export interface ClassSummaryData { classId: string; termId: string; registersTaken: number; students: ({ studentId: string; name: string; admissionNumber: string | null } & AttendanceSummary)[] }

@@ -171,7 +171,7 @@ export async function submitExplanation(parent: Actor, studentId: string, date: 
   await safely('explanation notice', async () => {
     const t = (await query('select f.teacher_id, c.id as class_id from attendance_records ar join attendance_registers r on r.id = ar.register_id join terms tm on tm.id = r.term_id join class_form_teachers f on f.class_id = r.class_id and f.session_id = tm.session_id join classes c on c.id = r.class_id where ar.student_id = $1 and r.date = $2', [studentId, date])).rows[0];
     const kid = (await query('select first_name from users where id = $1', [studentId])).rows[0];
-    if (t) await notifyOne(pool, t.teacher_id, { type: 'absence_explanation', title: `Absence explanation for ${kid.first_name}`, body: `${dayName(date)}: ${reason.slice(0, 120)}`, link: '/teacher/attendance', entityType: 'student', entityId: studentId, dedupeKey: `explanation:${row.id}:submitted` });
+    if (t) await notifyOne(pool, t.teacher_id, { type: 'absence_explanation', title: `Absence explanation for ${kid.first_name}`, body: `${dayName(date)}: ${reason.slice(0, 120)}`, link: '/teacher/attendance/explanations', entityType: 'student', entityId: studentId, dedupeKey: `explanation:${row.id}:submitted` });
   });
   return { id: row.id as string, date, status: row.status as string };
 }

@@ -48,6 +48,16 @@ export function ReportCard({ d }: { d: ReportCardData }) {
             <div key={k} className="rounded-lg bg-brand-50 p-3 text-center"><p className="text-xs uppercase tracking-wide text-muted">{k}</p><p className="mt-1 text-lg font-bold">{v}</p></div>
           ))}
         </div>
+        <section className="mt-5" aria-label="Attendance"><p className="mb-1 text-sm font-semibold">Attendance</p>
+          {d.attendance && d.attendance.opened > 0 ? (
+            <div className="grid gap-3 sm:grid-cols-5">
+              {[['School days', d.attendance.opened], ['Present', d.attendance.present], ['Late', d.attendance.late], ['Absent', d.attendance.absent], ['Attendance', d.attendance.percentPresent === null ? '-' : `${d.attendance.percentPresent}%`]].map(([k, v]) => (
+                <div key={k} className="rounded-lg bg-brand-50 p-3 text-center"><p className="text-xs uppercase tracking-wide text-muted">{k}</p><p className="mt-1 text-lg font-bold">{v}</p></div>
+              ))}
+            </div>
+          ) : <p className="text-sm text-muted">No attendance was recorded for this term.</p>}
+          {d.attendance && d.attendance.opened > 0 && <p className="mt-1 text-xs text-muted">Present includes late arrivals.</p>}
+        </section>
         {!s.ranked && <p className="mt-3 rounded-lg bg-gold-100 p-3 text-sm">{s.missing.length ? `Some scores are not in yet (${s.missing.join(', ')}), so the totals, overall grade and class position cannot be worked out.` : 'Overall figures appear once scores are entered.'}</p>}
         {d.remark && <p className="mt-4 whitespace-pre-line rounded-lg border border-line p-3"><span className="font-semibold">Remarks: </span>{d.remark}</p>}
         <section className="mt-5" aria-label="Grading scale"><p className="mb-1 text-sm font-semibold">Grading scale</p>

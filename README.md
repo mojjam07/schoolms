@@ -181,11 +181,16 @@ How results are worked out
 - After publication only the administrator can correct a score; each correction is written to the audit log with the old and new values and shows on the report card at once.
 
 Tests: `tests/phase7.test.ts` (87 API checks: grading validation, boundaries such as 74.5% = B2 and 75% = A1, ties, incomplete students, publishing rules, privacy between families, locking, corrections, snapshot) plus a browser walkthrough of the full cycle and phone widths.
-**Not built yet** (still on your original list): attendance and absence explanations, examination schedules and timetables, parent-teacher messaging, CSV student import, results history and progress across terms, and a final security and deployment pass.
+**Not built yet** (still on your original list): examination schedules and timetables, parent-teacher messaging, CSV student import, results history and progress across terms, and a final security and deployment pass.
 
 ## Phase 7b: attendance and absence explanations
 
-**Screens built so far:** the administrator's *Form teachers* page (`/admin/form-teachers`), the form teacher's *Attendance* register (`/teacher/attendance`), and the parent's *Attendance* page with the absence-explanation form (`/parent/attendance`). **Still without screens:** the teacher/administrator queue for accepting or declining explanations, the administrator's daily overview and class summary, the student's own attendance view, and the attendance block on the report card page (the API already returns all of these).
+**Screens (all built):**
+- *Administrator:* **Attendance** (`/admin/attendance`) has four tabs: **Today** (which classes have taken their register on any date, with present/late/absent counts and a link to take or correct each one), **Take or correct a register** (any class, any date, no 7-day limit), **Explanations** (every class) and **Class summaries**. The *Form teachers* page (`/admin/form-teachers`) assigns form teachers.
+- *Form teacher:* **Attendance** (`/teacher/attendance`) has **Register**, **Explanations** (accept or decline with an optional note; the tab shows how many are waiting) and **Class summary** (a term's figures per student). The notification a form teacher gets about a new explanation opens the Explanations tab.
+- *Parent:* **Attendance** (`/parent/attendance`) with the explanation form and the school's replies.
+- *Student:* **Attendance** (`/student/attendance`), read only: the term's figures and the days missed or late.
+- *Report card:* an **Attendance** block (school days, present, late, absent, percent) on the student, parent and administrator-preview report card.
 
 - **Daily register, one per class per day, taken by the class's form teacher.** The administrator assigns one form teacher per class per session. Each student is marked present, late or absent. The register must list every active student exactly once; withdrawn students are not on it. A register cannot be taken for a future date or a date outside every term.
 - **Corrections:** the form teacher can take or correct a register for 7 days; after that only the administrator can. Every register and every correction is audited, and corrections record what changed.
@@ -193,4 +198,5 @@ Tests: `tests/phase7.test.ts` (87 API checks: grading validation, boundaries suc
 - **Parents** are told in-app when their child is marked absent or late (once per child per day per status). They can explain an absence, or a late arrival, only for a day the register actually shows it, for their own child only. The form teacher is notified. The form teacher or administrator accepts or declines with a note and the parent is told. An accepted explanation excuses the absence in the figures but the register itself is never altered. A reviewed explanation cannot be edited by the parent. Parents and students cannot change any register.
 - **Views (API):** a form teacher's class summary, the administrator's "which registers were taken today" overview, a parent's child summary with the days missed or late and the school's replies, and a student's own record (read only). The report card API now includes the attendance block.
 
-Tests: `tests/phase7b.test.ts` (59 checks). Run suites one at a time against a freshly started API.
+Tests: `tests/phase7b.test.ts` (59 API checks). Run suites one at a time against a freshly started API.
+Browser walkthrough: `e2e/attendance.walkthrough.py` (17 checks across the form teacher, another teacher, the administrator, a student on a phone and the report card). Setup is in the file's header: seed with `server/tests/seed-attendance.ts`, then run it with Playwright. It saves screenshots to `e2e/shots/`.
