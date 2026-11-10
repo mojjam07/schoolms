@@ -27,6 +27,12 @@ import StudentAttendance from './pages/student/Attendance';
 import { StudentResults, StudentReportCard } from './pages/student/Results';
 import { ParentResults, ParentReportCard } from './pages/parent/Results';
 import ParentAttendance from './pages/parent/Attendance';
+import { StudentTimetable, StudentExams } from './pages/student/Schedule';
+import { TeacherTimetable, TeacherExams } from './pages/teacher/Schedule';
+import { ParentTimetable, ParentExams } from './pages/parent/Schedule';
+import AdminTimetable from './pages/admin/Timetable';
+import AdminExams from './pages/admin/ExamSchedules';
+import Rollover from './pages/admin/Rollover';
 import ReceiptPage from './pages/Receipt';
 import ParentFees from './pages/parent/Fees';
 import ParentFeeDetail from './pages/parent/FeeDetail';
@@ -96,6 +102,9 @@ export default function App() {
           <Route path="accounts" element={<Accounts />} />
           <Route path="students" element={<Students />} />
           <Route path="teaching" element={<Teaching />} />
+          <Route path="timetable" element={<AdminTimetable />} />
+          <Route path="exams" element={<AdminExams />} />
+          <Route path="rollover" element={<Rollover />} />
           <Route path="attendance" element={<AttendanceOverview />} />
           <Route path="attendance/register" element={<AttendanceRegister />} />
           <Route path="attendance/explanations" element={<AdminExplanations />} />
@@ -125,6 +134,8 @@ export default function App() {
           <Route path="assignments" element={<TeacherAssignments />} />
           <Route path="assignments/:id" element={<TeacherAssignmentDetail />} />
           <Route path="scores" element={<TeacherScores />} />
+          <Route path="timetable" element={<TeacherTimetable />} />
+          <Route path="exams" element={<TeacherExams />} />
           <Route path="attendance" element={<TeacherAttendance />} />
           <Route path="attendance/explanations" element={<TeacherExplanations />} />
           <Route path="attendance/summary" element={<TeacherAttendanceSummary />} />
@@ -137,6 +148,8 @@ export default function App() {
           <Route path="learning" element={<Learning />} />
           <Route path="assignments" element={<StudentAssignments />} />
           <Route path="assignments/:id" element={<StudentAssignmentDetail />} />
+          <Route path="timetable" element={<StudentTimetable />} />
+          <Route path="exams" element={<StudentExams />} />
           <Route path="attendance" element={<StudentAttendance />} />
           <Route path="results" element={<StudentResults />} />
           <Route path="results/:termId" element={<StudentReportCard />} />
@@ -146,6 +159,8 @@ export default function App() {
       <Route element={<RequireRole role="parent" />}>
         <Route path="/parent" element={<ParentLayout />}>
           <Route index element={<ParentHome />} />
+          <Route path="timetable" element={<ParentTimetable />} />
+          <Route path="exams" element={<ParentExams />} />
           <Route path="attendance" element={<ParentAttendance />} />
           <Route path="results" element={<ParentResults />} />
           <Route path="results/:studentId/:termId" element={<ParentReportCard />} />

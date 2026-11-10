@@ -200,3 +200,19 @@ Tests: `tests/phase7.test.ts` (87 API checks: grading validation, boundaries suc
 
 Tests: `tests/phase7b.test.ts` (59 API checks). Run suites one at a time against a freshly started API.
 Browser walkthrough: `e2e/attendance.walkthrough.py` (17 checks across the form teacher, another teacher, the administrator, a student on a phone and the report card). Setup is in the file's header: seed with `server/tests/seed-attendance.ts`, then run it with Playwright. It saves screenshots to `e2e/shots/`.
+
+## Phase 8: timetables, exam schedules and new-session promotion
+
+**Timetable** (`/admin/timetable`): lessons per class per session, Monday to Friday. Teachers are not typed in: they come from Teaching assignments for that class and subject. The API refuses a lesson that overlaps another for the same class, or that puts a teacher in two classes at once (`CLASS_CLASH`, `TEACHER_CLASH`). Clashes created later (for example by assigning a teacher to a second class) are listed at the top of the page (`GET /api/timetable/conflicts`). A subject cannot be removed from a class while it is on the timetable or an exam schedule. Students, parents (linked children only) and teachers (only what they teach) have a read-only **Timetable** page.
+
+**Exam schedules** (`/admin/exams`): a schedule belongs to a term and starts as a **draft that nobody but the administrator can see**. Papers are one subject for one class on one date; the date must fall inside the term, and a class cannot have two overlapping papers on a day. Publishing needs at least one paper and notifies the class's students, their parents and the subject teachers, **once**, however often it is unpublished and republished. After publishing, moving a paper's date, time or venue, adding a paper, or removing one notifies the same people; edits to instructions alone do not. A published schedule must be unpublished before it can be deleted. Students and parents see **Examinations** pages and an "Upcoming examinations" card on their dashboards; a student only ever sees papers for the class they were enrolled in during that term.
+
+**New session promotion** (`/admin/rollover`): choose the session to promote from and into (the new session must start later), then **Preview**, then **Run**. The preview is the exact plan and changes nothing.
+- JSS 1 to 2 to 3, then SSS 1 to 2 to 3, then graduate. The arm is kept (JSS 1A goes to JSS 2A). If the next class does not exist (typically SSS 1), the preview blocks the run until you pick a class per row or tick *Create missing classes*.
+- Per student: **Repeat class** keeps them in the same class; **Leave out** places them nowhere (they keep their old record and can be placed later under Students and classes). Students already placed in the new session are left alone. Withdrawn students are never carried.
+- Final-year students are marked `graduated` in the old session. Old-session enrolments are otherwise untouched.
+- Form teachers and teaching assignments follow the **class** (JSS 1A gets a form teacher again), not the pupils, and only for teachers whose account is active; the result names anyone skipped. Copying the timetable is optional.
+- It runs in one transaction, can be done once per pair of sessions (`ALREADY_DONE`), and is audited. It does not make the new session current and does not create fees or grading columns for it; do those next.
+- Promotion does not look at results. Who repeats is the school's decision.
+
+Tests: `tests/phase8.test.ts` (67 API checks). **Not verified in a browser:** the screens compile and build, but nobody has clicked through them.

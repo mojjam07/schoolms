@@ -11,6 +11,8 @@ import academicRoutes from './modules/academic/academic.routes';
 import assignmentRoutes from './modules/assignments/assignments.routes';
 import { adminSiteRoutes, publicRoutes } from './modules/site/site.routes';
 import attendanceRoutes from './modules/attendance/attendance.routes';
+import rolloverRoutes from './modules/rollover/rollover.routes';
+import scheduleRoutes from './modules/schedule/schedule.routes';
 import resultsRoutes from './modules/results/results.routes';
 import feesRoutes from './modules/fees/fees.routes';
 import notificationRoutes from './modules/notifications/notifications.routes';
@@ -53,6 +55,8 @@ app.use('/api', assignmentRoutes);
 app.use('/api', feesRoutes);
 app.use('/api', resultsRoutes);
 app.use('/api', attendanceRoutes);
+app.use('/api', scheduleRoutes);
+app.use('/api', rolloverRoutes);
 app.use('/api/public', publicRoutes);
 app.use('/api/admin/site', adminSiteRoutes);
 

@@ -154,6 +154,11 @@ export async function setClassSubjects(classId: string, subjectIds: string[], ct
         'select 1 from teaching_assignments where class_id = $1 and subject_id = any($2::uuid[]) limit 1',
         [classId, removed.rows.map((r) => r.subject_id)]);
       if (used.rowCount) throw new AppError(409, 'A subject you removed still has a teacher assigned. Remove the teacher assignment first.', 'IN_USE');
+      const ids = removed.rows.map((r) => r.subject_id);
+      const sched = await c.query(
+        `select 1 from timetable_entries where class_id = $1 and subject_id = any($2::uuid[])
+         union all select 1 from exam_papers where class_id = $1 and subject_id = any($2::uuid[]) limit 1`, [classId, ids]);
+      if (sched.rowCount) throw new AppError(409, 'A subject you removed is still on the timetable or an exam schedule. Remove it there first.', 'IN_USE');
       await c.query('delete from class_subjects where class_id = $1 and subject_id = any($2::uuid[])', [classId, removed.rows.map((r) => r.subject_id)]);
     }
     await c.query(

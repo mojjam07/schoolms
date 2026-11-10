@@ -6,6 +6,8 @@ export const TeacherLayout = () => (
     { to: '/teacher/notes', label: 'Lesson notes' },
     { to: '/teacher/videos', label: 'Video lessons' },
     { to: '/teacher/assignments', label: 'Assignments' },
+    { to: '/teacher/timetable', label: 'Timetable' },
+    { to: '/teacher/exams', label: 'Examinations' },
     { to: '/teacher/attendance', label: 'Attendance' },
     { to: '/teacher/scores', label: 'Scores' },
   ]} />
@@ -16,6 +18,8 @@ export const StudentLayout = () => (
     { to: '/student', label: 'My class', end: true },
     { to: '/student/learning', label: 'My lessons' },
     { to: '/student/assignments', label: 'Assignments' },
+    { to: '/student/timetable', label: 'Timetable' },
+    { to: '/student/exams', label: 'Examinations' },
     { to: '/student/attendance', label: 'Attendance' },
     { to: '/student/results', label: 'My results' },
   ]} />
@@ -24,6 +28,8 @@ export const StudentLayout = () => (
 export const ParentLayout = () => (
   <PortalLayout roleLabel="Parent or guardian" notificationsPath="/parent/notifications" nav={[
     { to: '/parent', label: 'My children', end: true },
+    { to: '/parent/timetable', label: 'Timetable' },
+    { to: '/parent/exams', label: 'Examinations' },
     { to: '/parent/attendance', label: 'Attendance' },
     { to: '/parent/results', label: 'Results' },
     { to: '/parent/fees', label: 'School fees' },

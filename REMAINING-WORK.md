@@ -4,6 +4,8 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 
 ## Where the project stands
 
+> Update: timetables, exam schedules and session promotion were added in Phase 8. The new screens were type-checked and built, and the API was tested (67 checks), but they have **not been opened in a browser yet**.
+
 **Built and tested locally** (React + TypeScript frontend, Express API, PostgreSQL):
 
 - Sign-in, password reset, account activation, four roles, role checks on every endpoint
@@ -14,9 +16,10 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 - Paystack online payment (tested against a fake Paystack only)
 - Public website with an editable content system, admission applications and a contact form
 - Grading, score entry, results and report cards
+- Timetables, exam schedules (draft, publish, notifications) and the new-session promotion, with screens for all four roles
 - Attendance: the full rules in the API and all screens (form teacher register, review queue and class summary; administrator daily overview, register for any class and date, review queue and class summary; parent page; student page; attendance on the report card)
 
-**Automated checks:** 591 API checks across 10 suites, plus browser walkthroughs for each feature.
+**Automated checks:** 658 API checks across 11 suites, plus browser walkthroughs for each feature.
 
 **Important caveat:** everything has been run only against a local PostgreSQL and fake versions of Supabase storage, Paystack and email. Nothing has been run against the real services or deployed yet (see section 3).
 
@@ -35,8 +38,8 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 
 ### Academic and school management
 
-- [ ] **M** **Timetables and examination schedules.** Administrators create them. Students, parents and teachers view them. "Upcoming examinations" should appear on the student and parent dashboards.
-- [ ] **M** **Promotion and new-session rollover.** Move students to the next class, graduate the final year, and carry over form teachers and teaching assignments. Right now every new session has to be set up by hand.
+- [x] **M** **Timetables and examination schedules.** DONE (see README, Phase 8). Administrators build them; students, parents and teachers view them; "Upcoming examinations" shows on the student and parent dashboards. Not done: invigilator assignment and exam seating.
+- [x] **M** **Promotion and new-session rollover.** DONE (see README, Phase 8). Preview, then run once: moves students up, graduates the final year, handles repeaters and leavers, carries over form teachers, teaching assignments and optionally the timetable. Fees and grading columns for the new session are still set up by hand.
 - [ ] **M** **Quizzes and tests.** The spec says "manage permitted quizzes and tests". Only assignments and score entry exist.
 - [ ] **M** **Results history.** Progress across terms, plus an annual or cumulative result.
 - [ ] **M** **CSV import of students.** Validated, with a dry run and an error report.
@@ -158,9 +161,9 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 
 ## Suggested order
 
-1. Finish attendance (section 1): small and nearly done.
-2. Verify against the real services and deploy (3a), so surprises show up early.
-3. Timetables and exam schedules, then promotion and session rollover. These two are what a school needs before its next term.
+1. ~~Finish attendance (section 1)~~ done.
+2. Verify against the real services and deploy (3a), so surprises show up early. **Next, and needs your accounts.**
+3. ~~Timetables and exam schedules, then promotion and session rollover~~ done.
 4. Parent–teacher messaging, student import and profile editing.
 5. Security hardening, documentation and accessibility (3b and 3c) before real pupils' data goes in.
 6. Dashboards and the optional extras last.

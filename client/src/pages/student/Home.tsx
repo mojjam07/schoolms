@@ -5,10 +5,13 @@ import { InvoiceStatus } from '../../components/FeeBits';
 import { fmtDate, naira } from '../../lib/format';
 import type { MyInvoiceSummary } from '../../lib/types';
 import { useFetch } from '../../lib/useFetch';
+import { ExamList } from '../../components/schedule/parts';
+import type { ExamPaper } from '../../lib/types';
 
 export default function StudentHome() {
   const c = useFetch<MyClass>('/students/me/class');
   const fees = useFetch<MyInvoiceSummary[]>('/students/me/invoices');
+  const exams = useFetch<ExamPaper[]>('/students/me/exams?scope=upcoming');
   return (
     <>
       <PageHeader title="My class" />
@@ -27,6 +30,12 @@ export default function StudentHome() {
           ) : <Empty>You have not been placed in a class for this session yet. Please contact the school office.</Empty>}
         </DataState>
       </Card>
+      {!!exams.data?.length && (
+        <div className="mt-6"><Card title="Upcoming examinations">
+          <ExamList papers={exams.data.slice(0, 5)} emptyText="" />
+          <p className="mt-3 text-sm"><Link className="font-medium text-brand-700 underline" to="/student/exams">See all examinations</Link></p>
+        </Card></div>
+      )}
       {!!fees.data?.length && (
         <div className="mt-6"><Card title="School fees">
           <ul className="divide-y divide-line">

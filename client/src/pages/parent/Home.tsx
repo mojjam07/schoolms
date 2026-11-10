@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Card, DataState, Empty, PageHeader } from '../../components/ui';
 import type { Child } from '../../lib/types';
 import { useFetch } from '../../lib/useFetch';
+import { UpcomingExams } from './Schedule';
 
 export default function ParentHome() {
   const kids = useFetch<Child[]>('/parents/me/children');
@@ -16,6 +17,7 @@ export default function ParentHome() {
                 <p className="text-lg font-semibold">{c.firstName} {c.lastName}</p>
                 <p className="text-muted">{c.className ?? 'Not placed in a class this session'}</p>
                 <p className="mt-1 text-sm text-muted capitalize">{c.relationship}{c.isPrimary ? ' · primary contact' : ''}{c.admissionNumber ? ` · ${c.admissionNumber}` : ''}</p>
+                <UpcomingExams childId={c.id} />
               </Card></li>
             ))}
           </ul>

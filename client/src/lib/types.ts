@@ -96,3 +96,17 @@ export interface AttendanceSummary { opened: number; present: number; onTime: nu
 export interface ExplanationRow { id: string; studentName: string; className: string; date: string; attendance: 'present' | 'late' | 'absent'; reason: string; submittedBy: string; status: 'pending' | 'accepted' | 'declined'; reviewNote: string | null; submittedAt: string }
 export interface DayStatusRow { classId: string; className: string; formTeacher: string | null; taken: boolean; present: number; late: number; absent: number }
 export interface ClassSummaryData { classId: string; termId: string; registersTaken: number; students: ({ studentId: string; name: string; admissionNumber: string | null } & AttendanceSummary)[] }
+
+// ---- timetables, exams, promotion ----
+export interface Slot { id: string; sessionId: string; classId: string; className: string; subjectId: string; subjectName: string; dayOfWeek: number; dayName: string; startTime: string; endTime: string; room: string | null; teachers: string[] }
+export interface TimetableData { session: { id: string; name: string } | null; className: string | null; entries: Slot[] }
+export interface TimetableConflict { teacher: string; dayName: string; first: { className: string; startTime: string; endTime: string }; second: { className: string; startTime: string; endTime: string } }
+export interface ExamPaper { id: string; scheduleId: string; scheduleTitle: string; termId: string; classId: string; className: string; subjectId: string; subjectName: string; date: string; startTime: string; endTime: string; venue: string | null; instructions: string | null }
+export interface ExamScheduleRow { id: string; termId: string; termName: string; sessionName: string; title: string; isPublished: boolean; publishedAt: string | null; paperCount?: number }
+export interface ExamScheduleFull extends ExamScheduleRow { papers: ExamPaper[] }
+export interface RolloverPreview {
+  fromSession: string; toSession: string; alreadyDone: boolean; canRun: boolean; blockers: string[]; classesToCreate: string[];
+  totals: { promote: number; repeat: number; graduate: number; excluded: number; alreadyPlaced: number };
+  classes: { fromClassId: string; fromClassName: string; source: 'chosen' | 'default'; target: { graduate: boolean; classId: string | null; className: string; willBeCreated?: boolean } | null;
+    students: { studentId: string; name: string; admissionNumber: string | null; outcome: 'promote' | 'repeat' | 'graduate' | 'skip-excluded' | 'skip-already' }[] }[];
+}
