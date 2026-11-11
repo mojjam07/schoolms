@@ -13,7 +13,16 @@ let refreshing: Promise<User | null> | null = null;
 let onSessionLost: () => void = () => {};
 
 export const setSessionLostHandler = (fn: () => void) => { onSessionLost = fn; };
-export const setAccessToken = (t: string | null) => { accessToken = t; };
+// A small "was signed in" hint, so a signed-out visitor does not call /auth/refresh at all (that call can only fail with a 401,
+// and the browser prints every failed request in red). It holds no token: the real session is still the secure cookie.
+const HINT = 'kok_session';
+const hint = {
+  get: () => { try { return localStorage.getItem(HINT) === '1'; } catch { return true; } },
+  set: () => { try { localStorage.setItem(HINT, '1'); } catch { /* private mode: ignore */ } },
+  clear: () => { try { localStorage.removeItem(HINT); } catch { /* ignore */ } },
+};
+
+export const setAccessToken = (t: string | null) => { accessToken = t; if (t) hint.set(); else hint.clear(); };
 
 async function send(path: string, method: string, body?: unknown, withAuth = true) {
   const isForm = body instanceof FormData; // the browser sets the multipart boundary itself
@@ -41,10 +50,11 @@ async function parse<T>(res: Response): Promise<T> {
 export function refreshSession(): Promise<User | null> {
   refreshing ??= (async () => {
     try {
+      if (!hint.get()) { accessToken = null; return null; } // signed out: nothing to refresh, so no request
       const res = await send('/auth/refresh', 'POST', undefined, false);
-      if (!res.ok) { accessToken = null; return null; }
+      if (!res.ok) { accessToken = null; hint.clear(); return null; }
       const data = await parse<{ user: User; accessToken: string }>(res);
-      accessToken = data.accessToken;
+      accessToken = data.accessToken; hint.set();
       return data.user;
     } catch {
       accessToken = null;

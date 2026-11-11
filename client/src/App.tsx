@@ -81,6 +81,9 @@ import MessagesInbox from "./pages/messages/Inbox";
 import NewMessage from "./pages/messages/NewMessage";
 import MessageThread from "./pages/messages/Thread";
 import MessageOversight from "./pages/admin/MessageOversight";
+import DataPrivacy from "./pages/admin/DataPrivacy";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 
 export default function App() {
   return (
@@ -107,7 +110,7 @@ export default function App() {
       <Route path="/reset-password" element={<SetPassword mode="reset" />} />
       <Route element={<RequireRole role="admin" />}>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Overview />} />
+          <Route index element={<AdminDashboard />} />
           <Route path="academic" element={<Academic />} />
           <Route path="classes" element={<Classes />} />
           <Route path="accounts" element={<Accounts />} />
@@ -120,6 +123,7 @@ export default function App() {
           <Route path="rollover" element={<Rollover />} />
           <Route path="attendance" element={<AttendanceOverview />} />
           <Route path="attendance/register" element={<AttendanceRegister />} />
+          <Route path="data" element={<DataPrivacy />} />
           <Route
             path="attendance/explanations"
             element={<AdminExplanations />}
@@ -144,9 +148,15 @@ export default function App() {
           <Route path="news" element={<NewsEvents />} />
           <Route path="facilities" element={<FacilitiesGallery />} />
           <Route path="applications" element={<Applications />} />
-          <Route path="messages" element={<MessagesInbox base="/admin" canStart={false} />} />
+          <Route
+            path="messages"
+            element={<MessagesInbox base="/admin" canStart={false} />}
+          />
           <Route path="messages/all" element={<MessageOversight />} />
-          <Route path="messages/:id" element={<MessageThread base="/admin" />} />
+          <Route
+            path="messages/:id"
+            element={<MessageThread base="/admin" />}
+          />
           <Route
             path="receipts/:id"
             element={<ReceiptPage backTo="/admin/invoices" />}
@@ -155,7 +165,7 @@ export default function App() {
       </Route>
       <Route element={<RequireRole role="teacher" />}>
         <Route path="/teacher" element={<TeacherLayout />}>
-          <Route index element={<TeacherHome />} />
+          <Route index element={<TeacherDashboard />} />
           <Route path="notes" element={<TeacherNotes />} />
           <Route path="videos" element={<TeacherVideos />} />
           <Route path="assignments" element={<TeacherAssignments />} />

@@ -1,25 +1,13 @@
 Client wiring (small edits, do not replace the files)
 
-1) client/src/lib/types.ts: append the block in TYPES_TO_ADD_lib_types.ts.txt
+client/src/App.tsx
+  imports:
+    import AdminDashboard from './pages/admin/AdminDashboard';
+    import TeacherDashboard from './pages/teacher/TeacherDashboard';
+  change the two index routes (lines 102 and 136 in the Phase 9 copy):
+    <Route index element={<Overview />} />      ->  <Route index element={<AdminDashboard />} />
+    <Route index element={<TeacherHome />} />   ->  <Route index element={<TeacherDashboard />} />
+  The old Overview and TeacherHome files can stay until you are happy with the new ones.
 
-2) client/src/App.tsx: add imports
-   import MessagesInbox from './pages/messages/Inbox';
-   import NewMessage from './pages/messages/NewMessage';
-   import MessageThread from './pages/messages/Thread';
-   import MessageOversight from './pages/admin/MessageOversight';
-   and routes inside each role's layout:
-   parent:  <Route path="messages" element={<MessagesInbox base="/parent" />} />
-            <Route path="messages/new" element={<NewMessage base="/parent" />} />
-            <Route path="messages/:id" element={<MessageThread base="/parent" />} />
-   teacher: the same three with base="/teacher"
-   admin:   <Route path="messages" element={<MessagesInbox base="/admin" canStart={false} />} />
-            <Route path="messages/all" element={<MessageOversight />} />
-            <Route path="messages/:id" element={<MessageThread base="/admin" />} />
-   (In the admin block put "messages/all" before "messages/:id".)
-
-3) client/src/components/RoleLayouts.tsx: add { to: '/teacher/messages', label: 'Messages' } to the teacher nav and
-   { to: '/parent/messages', label: 'Messages' } to the parent nav.
-   client/src/components/AdminLayout.tsx NAV: add { to: '/admin/messages', label: 'Office messages' } and { to: '/admin/messages/all', label: 'All conversations' }.
-
-Notes: the pages use Tailwind classes bg-primary and text-primary, and the UI components TextArea, SmallButton, Alert, Badge (tone="info"/"warning").
-If your Badge tones or the primary colour class are named differently, adjust those few spots.
+Links used on the pages (change them if your route paths differ):
+  /admin/applications, /admin/invoices, /admin/audit, /admin/messages/all (Phase 10), /teacher/messages (Phase 10), /teacher/assignments/:id
