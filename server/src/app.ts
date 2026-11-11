@@ -24,6 +24,7 @@ import auditRoutes from "./modules/audit/audit.routes";
 import messageRoutes from "./modules/messages/messages.routes";
 import dataProtectionRoutes from "./modules/dataprotection/dataprotection.routes";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes";
+import resultsHistoryRoutes from "./modules/results/history.routes";
 
 export const app = express();
 app.set("trust proxy", 1); // Render sits behind a proxy
@@ -79,6 +80,7 @@ app.use("/api/admin/audit-logs", auditRoutes);
 app.use("/api/admin/data", dataProtectionRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/results-history", resultsHistoryRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

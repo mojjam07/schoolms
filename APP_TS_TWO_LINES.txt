@@ -1,4 +1,9 @@
-server/src/app.ts: nothing new to add if you already added the Phase 12 line
-   app.use('/api/dashboard', dashboardRoutes);
-This phase's server/src/modules/dashboard/dashboard.routes.ts REPLACES the Phase 12 copy (it keeps the admin and teacher routes and adds student and parent).
-If you have not applied Phase 12, add the import and that one line first. No migration.
+server/src/app.ts: do NOT replace the file. Add these two lines.
+
+1) with the other imports:
+   import resultsHistoryRoutes from './modules/results/history.routes';
+
+2) next to the other app.use('/api/...') lines:
+   app.use('/api/results-history', resultsHistoryRoutes);
+
+No migration is needed.

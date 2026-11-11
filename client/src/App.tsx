@@ -86,6 +86,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import ParentDashboard from "./pages/parent/ParentDashboard";
+import StudentResultsHistory from "./pages/student/ResultsHistory";
+import ParentResultsHistory from "./pages/parent/ResultsHistory";
 
 export default function App() {
   return (
@@ -203,6 +205,7 @@ export default function App() {
           <Route path="exams" element={<StudentExams />} />
           <Route path="attendance" element={<StudentAttendance />} />
           <Route path="results" element={<StudentResults />} />
+          <Route path="results/history" element={<StudentResultsHistory />} />
           <Route path="results/:termId" element={<StudentReportCard />} />
           <Route path="notifications" element={<Notifications />} />
         </Route>
@@ -215,6 +218,7 @@ export default function App() {
           <Route path="exams" element={<ParentExams />} />
           <Route path="attendance" element={<ParentAttendance />} />
           <Route path="results" element={<ParentResults />} />
+          <Route path="results/history" element={<ParentResultsHistory />} />
           <Route
             path="results/:studentId/:termId"
             element={<ParentReportCard />}

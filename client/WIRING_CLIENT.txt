@@ -2,13 +2,11 @@ Client wiring (small edits, do not replace the files)
 
 client/src/App.tsx
   imports:
-    import StudentDashboard from './pages/student/StudentDashboard';
-    import ParentDashboard from './pages/parent/ParentDashboard';
-  change the two index routes:
-    <Route index element={<StudentHome />} />  ->  <Route index element={<StudentDashboard />} />
-    <Route index element={<ParentHome />} />   ->  <Route index element={<ParentDashboard />} />
+    import StudentResultsHistory from './pages/student/ResultsHistory';
+    import ParentResultsHistory from './pages/parent/ResultsHistory';
+  routes (put each BEFORE its "results/:..." route):
+    student:  <Route path="results/history" element={<StudentResultsHistory />} />
+    parent:   <Route path="results/history" element={<ParentResultsHistory />} />
 
-New shared component: client/src/components/ChildOverview.tsx
-Link targets used (all exist in the Phase 9 App.tsx): /student|/parent + /timetable, /exams, /attendance, /assignments;
-  /student/assignments/:id, /student/results/:termId, /student/learning, /student/notifications,
-  /parent/results/:studentId/:termId, /parent/fees/:id, /parent/notifications, /parent/messages (Phase 10).
+Add a link to the history from the existing results pages (client/src/pages/student/Results.tsx and parent/Results.tsx):
+    <Link to="/student/results/history">See progress over time</Link>      (parent: /parent/results/history)
