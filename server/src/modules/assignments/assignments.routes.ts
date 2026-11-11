@@ -4,6 +4,9 @@ import { validate } from '../../middleware/validate';
 import { ok } from '../../utils/respond';
 import * as s from './assignments.service';
 import * as v from './assignments.schemas';
+import { z } from 'zod';
+import { query } from '../../db/pool';
+import { AppError } from '../../utils/AppError';
 
 const actor = (req: any) => ({ id: req.user.id as string, role: req.user.role, ip: req.ip as string | undefined });
 const h = (fn: (req: any) => Promise<unknown>, status = 200): RequestHandler => async (req, res) => { ok(res, await fn(req), status); };
@@ -29,5 +32,14 @@ r.put('/submissions/:id/grade', ...teacher, validate({ params: v.idParam, body: 
 r.post('/submissions/:id/return', ...teacher, validate({ params: v.idParam }), h((q) => s.returnSubmission(actor(q), q.validated.params.id)));
 
 r.get('/students/me/assignments', authenticate, requireRole('student'), h((q) => s.studentAssignments(q.user.id)));
+
+// Parents see assignments and deadlines for their linked children only (not the instructions or files; those are for the student).
+r.get('/parents/me/children/:studentId/assignments', authenticate, requireRole('parent'), validate({ params: z.object({ studentId: z.string().uuid() }) }),
+  async (req, _res, next) => {
+    const link = await query('select 1 from parent_students where parent_id = $1 and student_id = $2', [req.user!.id, req.validated.params.studentId]);
+    if (!link.rowCount) throw new AppError(404, 'Child not found', 'NOT_FOUND');
+    next();
+  },
+  h(async (q) => (await s.studentAssignments(q.validated.params.studentId)).map(({ description, instructions, ...rest }: any) => rest)));
 
 export default r;

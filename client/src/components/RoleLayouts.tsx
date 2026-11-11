@@ -28,6 +28,7 @@ export const StudentLayout = () => (
 export const ParentLayout = () => (
   <PortalLayout roleLabel="Parent or guardian" notificationsPath="/parent/notifications" nav={[
     { to: '/parent', label: 'My children', end: true },
+    { to: '/parent/assignments', label: 'Assignments' },
     { to: '/parent/timetable', label: 'Timetable' },
     { to: '/parent/exams', label: 'Examinations' },
     { to: '/parent/attendance', label: 'Attendance' },

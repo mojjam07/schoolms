@@ -107,3 +107,21 @@ export async function fetchFileBlob(id: string): Promise<Blob> {
   if (!res.ok) throw new ApiError(res.status, 'DOWNLOAD_FAILED', 'This picture is not available.');
   return res.blob();
 }
+
+// Same idea for reports: fetched with the sign-in token, then saved from memory.
+export async function downloadFromApi(path: string, filename: string) {
+  let res = await send(path, 'GET');
+  if (res.status === 401) {
+    const user = await refreshSession();
+    if (!user) { onSessionLost(); throw new ApiError(401, 'UNAUTHENTICATED', 'Please sign in to continue'); }
+    res = await send(path, 'GET');
+  }
+  if (!res.ok) {
+    const j = await res.json().catch(() => null);
+    throw new ApiError(res.status, 'DOWNLOAD_FAILED', j?.error?.message ?? 'The download failed. Please try again.');
+  }
+  const url = URL.createObjectURL(await res.blob());
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+}

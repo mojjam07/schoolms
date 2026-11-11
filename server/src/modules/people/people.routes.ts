@@ -4,12 +4,16 @@ import { validate } from '../../middleware/validate';
 import { ok } from '../../utils/respond';
 import * as p from './people.service';
 import * as v from './people.schemas';
+import { z } from 'zod';
+import * as imp from './import.service';
 
 const h = (fn: (req: any) => Promise<unknown>, status = 200): RequestHandler => async (req, res) => { ok(res, await fn(req), status); };
 
 export const adminPeople = Router();
 const admin = [authenticate, requireRole('admin')];
 adminPeople.get('/students', ...admin, validate({ query: v.listStudentsSchema }), h((q) => p.listStudents(q.validated.query)));
+adminPeople.get('/students/import/template', ...admin, (_req, res) => { res.type('text/csv').send(imp.TEMPLATE); });
+adminPeople.post('/students/import', ...admin, validate({ body: z.object({ csv: z.string().min(1).max(900_000), dryRun: z.boolean().default(true) }) }), h((q) => imp.importStudents(q.validated.body.csv, q.validated.body.dryRun, q.user.id, q.ip)));
 adminPeople.get('/parent-links', ...admin, validate({ query: v.listLinksSchema }), h((q) => p.listLinks(q.validated.query)));
 adminPeople.post('/parent-links', ...admin, validate({ body: v.linkSchema }), h((q) => p.createLink(q.validated.body, q.user.id, q.ip), 201));
 adminPeople.delete('/parent-links/:parentId/:studentId', ...admin, validate({ params: v.unlinkParams }),

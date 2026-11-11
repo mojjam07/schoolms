@@ -20,6 +20,7 @@ import learningRoutes from './modules/learning/learning.routes';
 import { adminPeople, meRoutes } from './modules/people/people.routes';
 import { ok } from './utils/respond';
 import { handleWebhook } from './modules/fees/paystack.service';
+import auditRoutes from "./modules/audit/audit.routes";
 
 export const app = express();
 app.set('trust proxy', 1); // Render sits behind a proxy
@@ -59,6 +60,7 @@ app.use('/api', scheduleRoutes);
 app.use('/api', rolloverRoutes);
 app.use('/api/public', publicRoutes);
 app.use('/api/admin/site', adminSiteRoutes);
+app.use('/api/admin/audit-logs', auditRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

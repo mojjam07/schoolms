@@ -73,6 +73,7 @@ adminSiteRoutes.delete('/gallery/:id', ...admin, validate({ params: v.idParam })
 
 adminSiteRoutes.get('/applications', ...admin, validate({ query: v.appListQuery }), h((q) => enq.listApplications(q.validated.query)));
 adminSiteRoutes.get('/applications/:id', ...admin, validate({ params: v.idParam }), h((q) => enq.getApplication(q.validated.params.id)));
+adminSiteRoutes.post('/applications/:id/convert', ...admin, validate({ params: v.idParam, body: v.convertSchema }), h((q) => enq.convertApplication(q.validated.params.id, q.validated.body, q.user.id, q.ip), 201));
 adminSiteRoutes.patch('/applications/:id/status', ...admin, validate({ params: v.idParam, body: v.appStatusSchema }), h((q) => enq.setApplicationStatus(q.validated.params.id, q.validated.body, q.user.id, q.ip)));
 adminSiteRoutes.get('/messages', ...admin, validate({ query: v.messageListQuery }), h((q) => enq.listMessages(q.validated.query)));
 adminSiteRoutes.patch('/messages/:id', ...admin, validate({ params: v.idParam, body: v.messageStatusSchema }), h((q) => enq.setMessageStatus(q.validated.params.id, q.validated.body.status, q.user.id, q.ip)));

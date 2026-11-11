@@ -9,6 +9,7 @@ import * as msg from './fees.messages';
 import * as ps from './paystack.service';
 import rateLimit from 'express-rate-limit';
 import * as v from './fees.schemas';
+import * as exp from './fees.export';
 
 const ctx = (req: any) => ({ actorId: req.user.id as string, ip: req.ip as string | undefined });
 const h = (fn: (req: any) => Promise<unknown>, status = 200): RequestHandler => async (req, res) => { ok(res, await fn(req), status); };
@@ -34,6 +35,14 @@ r.post('/fees/invoices/:id/payments', ...admin, validate({ params: v.idParam, bo
   return res;
 }, 201));
 r.post('/fees/payments/:id/reverse', ...admin, validate({ params: v.idParam, body: v.reverseSchema }), h((q) => fees.reversePayment(q.validated.params.id, q.validated.body.reason, ctx(q))));
+const csv = (name: string, fn: (req: any) => Promise<string>): RequestHandler => async (req, res) => {
+  const body = await fn(req);
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8'); res.setHeader('Content-Disposition', `attachment; filename="${name}"`); res.setHeader('Cache-Control', 'no-store');
+  res.send(body);
+};
+r.get('/fees/export/summary.csv', ...admin, validate({ query: v.reportQuery }), csv('fees-summary.csv', (q) => exp.summaryCsv(q.validated.query.termId)));
+r.get('/fees/export/invoices.csv', ...admin, validate({ query: v.listInvoicesSchema.partial() }), csv('invoices.csv', (q) => exp.invoicesCsv(q.validated.query)));
+r.get('/fees/export/payments.csv', ...admin, validate({ query: v.reportQuery }), csv('payments.csv', (q) => exp.paymentsCsv(q.validated.query.termId)));
 r.get('/fees/report', ...admin, validate({ query: v.reportQuery }), h((q) => fees.report(q.validated.query.termId)));
 r.post('/fees/reminders', ...admin, validate({ body: v.remindersSchema }), h((q) => msg.sendReminders(q.validated.body, q.user.id, q.ip)));
 

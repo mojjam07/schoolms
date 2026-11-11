@@ -42,13 +42,13 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 - [x] **M** **Promotion and new-session rollover.** DONE (see README, Phase 8). Preview, then run once: moves students up, graduates the final year, handles repeaters and leavers, carries over form teachers, teaching assignments and optionally the timetable. Fees and grading columns for the new session are still set up by hand.
 - [ ] **M** **Quizzes and tests.** The spec says "manage permitted quizzes and tests". Only assignments and score entry exist.
 - [ ] **M** **Results history.** Progress across terms, plus an annual or cumulative result.
-- [ ] **M** **CSV import of students.** Validated, with a dry run and an error report.
-- [ ] **M** **Edit existing people.** Names, phone numbers, admission and staff numbers, date of birth, email. Today an account can only be created, suspended or reactivated.
+- [x] **M** **CSV import of students.** Validated, with a dry run and an error report. **DONE (Phase 9):** Admin > Import students. Dry run with a per-line error report, all-or-nothing creation, up to 500 rows, optional class column.
+- [x] **M** **Edit existing people.** Names, phone numbers, admission and staff numbers, date of birth, email. Today an account can only be created, suspended or reactivated. **DONE (Phase 9):** Edit button on Accounts. Changing an email signs the person out; an unactivated account gets a fresh activation link.
 
 ### Parents and communication
 
 - [ ] **L** **Parent–teacher and parent–staff messaging.** Threads, tracking of enquiries, replies, teacher contact details protected, and safeguarding rules.
-- [ ] **S** **Parents can see their child's assignments** and deadlines. Parents currently get results, fees and attendance, but not assignments.
+- [x] **S** **Parents can see their child's assignments** and deadlines. Parents currently get results, fees and attendance, but not assignments. **DONE (Phase 9):** Parent > Assignments (titles, deadlines and handed-in status; not the instructions).
 - [ ] **M** **Family account management.** Update contact details, notification preferences, and request corrections to guardian relationships (which an administrator verifies).
 - [ ] **M** **Notification preferences.** Choose what to receive. Email delivery tracking exists only for fee and admission emails.
 - [ ] **M** **SMS** (optional in your spec).
@@ -62,18 +62,18 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
   - tuition collected versus outstanding
   - recent announcements
   - recent administrator actions
-- [ ] **S** **Audit log viewer.** The log is written everywhere but cannot be read in the app.
+- [x] **S** **Audit log viewer.** The log is written everywhere but cannot be read in the app. **DONE (Phase 9):** Admin > Audit log, read-only, with search, action and date filters.
 - [ ] **M** **Teacher dashboard.** Upcoming assignments, work waiting to be marked, announcements, resources. It currently shows only classes.
 - [ ] **M** **Student and parent dashboards** as one overview page. This is currently spread across separate pages.
 
 ### Teaching content
 
 - [ ] **S** Share a lesson note or video with several classes at once, or with individual students. Today it is one class per item.
-- [ ] **S** Student view of "completion status" of assignments.
+- [x] **S** Student view of "completion status" of assignments. Already shown on the student Assignments page (handed in, marked, overdue); parents now have it too.
 
 ### Money
 
-- [ ] **S** Export financial reports to CSV or Excel.
+- [x] **S** Export financial reports to CSV or Excel. **DONE (Phase 9):** Invoices page: summary, invoices and payments as CSV (opens in Excel).
 - [ ] **M** Instalment plans.
 - [ ] **S** Receipts and report cards as downloadable PDFs (today they print from the browser).
 
@@ -82,7 +82,7 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 - [ ] **S** Search-engine basics: sitemap and metadata beyond page titles.
 - [ ] **S** CAPTCHA on the application and contact forms (only a hidden trap and rate limits exist).
 - [ ] **S** Resize uploaded pictures automatically, so large photos do not slow pages.
-- [ ] **S** One-click "convert accepted applicant into a student account".
+- [x] **S** One-click "convert accepted applicant into a student account". **DONE (Phase 9):** Applications > an applicant with an offer > Make this applicant a student. Optionally creates and links the guardian.
 - [ ] **S** Logo and favicon (the site uses the school name as text).
 
 ---

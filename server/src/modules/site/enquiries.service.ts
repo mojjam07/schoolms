@@ -1,4 +1,5 @@
-import { query } from '../../db/pool';
+import { query, withTransaction } from '../../db/pool';
+import { activationLink, createOneTimeToken } from '../auth/auth.service';
 import { env } from '../../config/env';
 import { AppError } from '../../utils/AppError';
 import { audit } from '../../services/audit';
@@ -43,6 +44,7 @@ const appRow = (r: any, full = false) => ({
   id: r.id, reference: r.reference, applicantName: `${r.first_name} ${r.last_name}`, applyingFor: `${r.class_stage} ${r.class_year}`, status: r.status, statusLabel: STATUS_LABEL[r.status],
   guardianName: r.guardian_name, guardianEmail: r.guardian_email, guardianPhone: r.guardian_phone, submittedAt: r.created_at, emailStatus: r.email_status,
   ...(full ? { dateOfBirth: r.date_of_birth, previousSchool: r.previous_school, address: r.address, message: r.message, publicNote: r.public_note, adminNote: r.admin_note, decidedAt: r.decided_at, consentAt: r.consent_at } : {}),
+  convertedStudentId: r.converted_student_id ?? null,
 });
 export async function listApplications(f: { status?: string; q?: string; page: number; pageSize: number }) {
   const params = [f.status ?? null, f.q ? `%${f.q}%` : null];
@@ -90,4 +92,55 @@ export async function setMessageStatus(id: string, status: string, actorId: stri
   if (!rowCount) throw new AppError(404, 'Message not found', 'NOT_FOUND');
   await audit({ actorId, action: 'contact_message.status_set', entityType: 'contact_message', entityId: id, metadata: { status }, ip });
   return { updated: true };
+}
+
+// Turns an applicant who has been made an offer into a student account in one step. The application is never edited by hand:
+// the link to the new student is stored, so it cannot be converted twice.
+export async function convertApplication(id: string, i: { email: string; admissionNumber: string; classId?: string; createParent: boolean }, actorId: string, ip?: string) {
+  const made = await withTransaction(async (c) => {
+    const a = (await c.query('select * from admission_applications where id = $1 for update', [id])).rows[0];
+    if (!a) throw new AppError(404, 'Application not found', 'NOT_FOUND');
+    if (a.converted_student_id) throw new AppError(409, 'This applicant has already been made a student.', 'ALREADY_CONVERTED');
+    if (a.status !== 'offered') throw new AppError(409, 'Set the status to "Offer made" before creating the student account.', 'NOT_OFFERED');
+    let sessionId: string | null = null;
+    if (i.classId) {
+      const cls = (await c.query('select stage, year from classes where id = $1', [i.classId])).rows[0];
+      if (!cls) throw new AppError(404, 'Class not found', 'NOT_FOUND');
+      if (cls.stage !== a.class_stage || cls.year !== a.class_year) throw new AppError(400, `This applicant applied for ${a.class_stage} ${a.class_year}. Choose a ${a.class_stage} ${a.class_year} class.`, 'VALIDATION_ERROR');
+      sessionId = (await c.query('select id from academic_sessions where is_current')).rows[0]?.id ?? null;
+      if (!sessionId) throw new AppError(400, 'There is no current session to place the student in. Set one under Sessions and terms.', 'VALIDATION_ERROR');
+    }
+    let studentId: string;
+    try {
+      studentId = (await c.query(`insert into users (email, role, first_name, last_name) values ($1,'student',$2,$3) returning id`, [i.email, a.first_name, a.last_name])).rows[0].id;
+      await c.query('insert into student_profiles (user_id, admission_number, date_of_birth) values ($1,$2,$3)', [studentId, i.admissionNumber, a.date_of_birth]);
+    } catch (e: any) {
+      if (e?.code === '23505') throw new AppError(409, String(e.constraint).includes('admission') ? 'That admission number is already used.' : 'That email address already belongs to another account.', 'DUPLICATE');
+      throw e;
+    }
+    if (i.classId && sessionId) await c.query('insert into enrolments (student_id, class_id, session_id) values ($1,$2,$3)', [studentId, i.classId, sessionId]);
+
+    // The guardian: link an existing parent account with that email, or (if asked) create one.
+    let parentNote: 'linked' | 'created' | 'none' | 'email_belongs_to_other_role' = 'none';
+    let parentId: string | null = null; let parentToken: string | null = null;
+    const existing = (await c.query('select id, role from users where email = $1', [a.guardian_email])).rows[0];
+    if (existing) { if (existing.role === 'parent') { parentId = existing.id; parentNote = 'linked'; } else parentNote = 'email_belongs_to_other_role'; }
+    else if (i.createParent) {
+      const parts = String(a.guardian_name).trim().split(/\s+/); const first = parts[0]; const last = parts.slice(1).join(' ') || parts[0];
+      parentId = (await c.query(`insert into users (email, role, first_name, last_name, phone) values ($1,'parent',$2,$3,$4) returning id`, [a.guardian_email, first, last, a.guardian_phone])).rows[0].id;
+      await c.query('insert into parent_profiles (user_id, address) values ($1,$2)', [parentId, a.address]);
+      parentToken = await createOneTimeToken(c, parentId!, 'activation', 72); parentNote = 'created';
+    }
+    if (parentId) await c.query(`insert into parent_students (parent_id, student_id, relationship, is_primary, created_by) values ($1,$2,'guardian',true,$3) on conflict do nothing`, [parentId, studentId, actorId]);
+    const studentToken = await createOneTimeToken(c, studentId, 'activation', 72);
+    await c.query('update admission_applications set converted_student_id = $2, updated_at = now() where id = $1', [id, studentId]);
+    await audit({ actorId, action: 'application.converted', entityType: 'application', entityId: id, metadata: { studentId, parent: parentNote, enrolled: !!i.classId }, ip }, c);
+    return { studentId, studentToken, parentToken, parentNote, a };
+  });
+  const send = async (to: string, name: string, token: string) => (await sendMail({ to, subject: 'Activate your Kingdom of Knowledge account', text: `Hello ${name},\n\nAn account has been created for you. Set your password within 72 hours:\n${activationLink(token)}` })).accepted;
+  return {
+    studentId: made.studentId, parent: made.parentNote,
+    studentEmailAccepted: await send(i.email, made.a.first_name, made.studentToken),
+    parentEmailAccepted: made.parentToken ? await send(made.a.guardian_email, made.a.guardian_name, made.parentToken) : null,
+  };
 }

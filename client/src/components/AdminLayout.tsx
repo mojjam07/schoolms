@@ -5,6 +5,7 @@ const NAV = [
   { to: '/admin/academic', label: 'Sessions and terms' },
   { to: '/admin/classes', label: 'Classes and subjects' },
   { to: '/admin/accounts', label: 'Accounts' },
+  { to: '/admin/import', label: 'Import students' },
   { to: '/admin/students', label: 'Students and classes' },
   { to: '/admin/teaching', label: 'Teaching assignments' },
   { to: '/admin/timetable', label: 'Timetable' },
@@ -23,6 +24,7 @@ const NAV = [
   { to: '/admin/facilities', label: 'Facilities and gallery' },
   { to: '/admin/applications', label: 'Applications' },
   { to: '/admin/messages', label: 'Messages' },
+  { to: '/admin/audit', label: 'Audit log' },
 ];
 
 export default function AdminLayout() {

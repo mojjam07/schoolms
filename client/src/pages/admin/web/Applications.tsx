@@ -2,14 +2,43 @@ import { useEffect, useState } from 'react';
 import { Alert, Badge, Button, Card, DataState, Empty, Field, PageHeader, Select, Table, Td, TextArea, Th } from '../../../components/ui';
 import { api } from '../../../lib/api';
 import { fmtDate, fmtDateTime } from '../../../lib/format';
-import type { Paged } from '../../../lib/types';
+import type { Paged, SchoolClass } from '../../../lib/types';
 import { useAction, useFetch } from '../../../lib/useFetch';
 
 interface App { id: string; reference: string; applicantName: string; applyingFor: string; status: string; statusLabel: string; guardianName: string; guardianEmail: string; guardianPhone: string; submittedAt: string; emailStatus: string | null;
-  dateOfBirth?: string; previousSchool?: string | null; address?: string | null; message?: string | null; publicNote?: string | null; adminNote?: string | null; consentAt?: string }
+  dateOfBirth?: string; previousSchool?: string | null; address?: string | null; message?: string | null; convertedStudentId?: string | null; publicNote?: string | null; adminNote?: string | null; consentAt?: string }
 const STATUSES: [string, string][] = [['received', 'Received'], ['under_review', 'Under review'], ['interview', 'Invited for an interview'], ['offered', 'Offer made'], ['declined', 'Not successful'], ['withdrawn', 'Withdrawn']];
 const TONE: Record<string, 'warn' | 'neutral' | 'good' | 'bad'> = { received: 'warn', under_review: 'neutral', interview: 'neutral', offered: 'good', declined: 'bad', withdrawn: 'neutral' };
 const EMAIL: Record<string, string> = { accepted: 'Email accepted by the email service (not proof it reached the inbox)', not_sent: 'No email was sent: no email service is set up', failed: 'The email service refused the email' };
+
+function Convert({ a, onDone }: { a: App; onDone: () => void }) {
+  const classes = useFetch<SchoolClass[]>('/academic/classes');
+  const fits = classes.data?.filter((c) => c.name.startsWith(a.applyingFor)) ?? [];
+  const [email, setEmail] = useState(''); const [adm, setAdm] = useState(''); const [classId, setClassId] = useState(''); const [parent, setParent] = useState(true);
+  const act = useAction(); const [msg, setMsg] = useState('');
+  async function go() {
+    setMsg('');
+    let r: { parent: string; studentEmailAccepted: boolean } | undefined;
+    if (await act.run(async () => { r = await api('/admin/site/applications/' + a.id + '/convert', { body: { email, admissionNumber: adm, ...(classId ? { classId } : {}), createParent: parent } }); })) {
+      setMsg(`${a.applicantName} is now a student. ${r!.parent === 'created' ? 'A guardian account was created and linked. ' : r!.parent === 'linked' ? 'Linked to the guardian’s existing account. ' : r!.parent === 'email_belongs_to_other_role' ? 'The guardian’s email already belongs to a non-parent account, so no guardian was linked; link one under Guardians. ' : 'No guardian account was created; link one under Guardians. '}Activation emails ${r!.studentEmailAccepted ? 'were accepted by the email service' : 'were not sent (no email service or it refused), use Resend email on the Accounts page'}.`);
+      onDone();
+    }
+  }
+  return (
+    <div className="border-t border-line pt-5 lg:max-w-xl">
+      <h3 className="mb-1 font-semibold">Make this applicant a student</h3>
+      <p className="mb-3 text-sm text-muted">Creates the student account from this application (name and date of birth are copied) and optionally places them in a class for the current session.</p>
+      <div className="grid gap-4">
+        <Field label="Student’s own email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} hint="Every account needs its own address, different from the guardian’s." />
+        <Field label="Admission number" value={adm} onChange={(e) => setAdm(e.target.value)} />
+        <Select label="Class (optional)" value={classId} onChange={(e) => setClassId(e.target.value)}><option value="">Do not place in a class yet</option>{fits.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</Select>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={parent} onChange={(e) => setParent(e.target.checked)} /> Create a guardian account for {a.guardianName} ({a.guardianEmail}) if there is none, and link it</label>
+        {act.error && <Alert tone="error">{act.error}</Alert>}{msg && <Alert tone="success">{msg}</Alert>}
+        <div className="max-w-xs"><Button onClick={go} loading={act.busy} disabled={!email || !adm}>Create student account</Button></div>
+      </div>
+    </div>
+  );
+}
 
 function Detail({ id, onSaved }: { id: string; onSaved: () => void }) {
   const d = useFetch<App>(`/admin/site/applications/${id}`);
@@ -38,6 +67,9 @@ function Detail({ id, onSaved }: { id: string; onSaved: () => void }) {
               {act.error && <Alert tone="error">{act.error}</Alert>}{msg && <Alert tone="success">{msg}</Alert>}
               <div className="max-w-xs"><Button onClick={save} loading={act.busy}>Save</Button></div>
             </div>
+            {a.convertedStudentId ? <p className="border-t border-line pt-5 text-sm"><Badge tone="good">Already a student</Badge> This applicant has been made a student. Find them under Accounts.</p>
+              : a.status === 'offered' ? <Convert a={a} onDone={() => { d.reload(); onSaved(); }} />
+              : <p className="border-t border-line pt-5 text-sm text-muted">To create a student account from this application, set the status to “Offer made” and save.</p>}
           </div>
         )}
       </DataState>
@@ -50,7 +82,7 @@ export default function Applications() {
   const list = useFetch<Paged<App>>(`/admin/site/applications?pageSize=100${status ? `&status=${status}` : ''}${q.trim() ? `&q=${encodeURIComponent(q.trim())}` : ''}`);
   return (
     <>
-      <PageHeader title="Admission applications" intro="Applications sent through the website. Accepting a child as a student is done by creating their account under Accounts." />
+      <PageHeader title="Admission applications" intro="Applications sent through the website. Once an offer is made, you can create the student account straight from the application." />
       <Card>
         <div className="mb-4 grid gap-3 sm:grid-cols-3"><Field label="Search" placeholder="Name, reference or email" value={q} onChange={(e) => setQ(e.target.value)} /><Select label="Status" value={status} onChange={(e) => setStatus(e.target.value)}><option value="">Any status</option>{STATUSES.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</Select></div>
         <DataState loading={list.loading && !list.data} error={list.error}>

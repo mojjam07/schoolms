@@ -30,6 +30,9 @@ import ParentAttendance from './pages/parent/Attendance';
 import { StudentTimetable, StudentExams } from './pages/student/Schedule';
 import { TeacherTimetable, TeacherExams } from './pages/teacher/Schedule';
 import { ParentTimetable, ParentExams } from './pages/parent/Schedule';
+import ImportStudents from './pages/admin/ImportStudents';
+import AuditLog from './pages/admin/AuditLog';
+import ParentAssignments from './pages/parent/Assignments';
 import AdminTimetable from './pages/admin/Timetable';
 import AdminExams from './pages/admin/ExamSchedules';
 import Rollover from './pages/admin/Rollover';
@@ -102,6 +105,8 @@ export default function App() {
           <Route path="accounts" element={<Accounts />} />
           <Route path="students" element={<Students />} />
           <Route path="teaching" element={<Teaching />} />
+          <Route path="import" element={<ImportStudents />} />
+          <Route path="audit" element={<AuditLog />} />
           <Route path="timetable" element={<AdminTimetable />} />
           <Route path="exams" element={<AdminExams />} />
           <Route path="rollover" element={<Rollover />} />
@@ -159,6 +164,7 @@ export default function App() {
       <Route element={<RequireRole role="parent" />}>
         <Route path="/parent" element={<ParentLayout />}>
           <Route index element={<ParentHome />} />
+          <Route path="assignments" element={<ParentAssignments />} />
           <Route path="timetable" element={<ParentTimetable />} />
           <Route path="exams" element={<ParentExams />} />
           <Route path="attendance" element={<ParentAttendance />} />

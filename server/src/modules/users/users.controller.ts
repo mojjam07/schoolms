@@ -18,3 +18,9 @@ export const resend: RequestHandler = async (req, res) => {
   const r = await users.resendActivation(req.validated.params.id, req.user!.id, req.ip);
   ok(res, { emailAccepted: r.emailAccepted, ...(isProd ? {} : { activationLink: r.activationLink }) });
 };
+
+export const detail: RequestHandler = async (req, res) => ok(res, await users.getUserDetail(req.validated.params.id));
+export const update: RequestHandler = async (req, res) => {
+  const r = await users.updateUser(req.validated.params.id, req.validated.body, req.user!.id, req.ip);
+  ok(res, { user: r.user, ...(r.activation ? { emailAccepted: r.activation.emailAccepted, ...(isProd ? {} : { activationLink: r.activation.activationLink }) } : {}) });
+};

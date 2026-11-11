@@ -25,3 +25,14 @@ export const listUsersSchema = z.object({
 
 export const idParam = z.object({ id: z.string().uuid() });
 export const statusSchema = z.object({ status: z.enum(['active', 'suspended']) });
+
+const dateOnly = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use the format YYYY-MM-DD').refine((d) => !Number.isNaN(new Date(d).getTime()) && d <= new Date().toISOString().slice(0, 10), 'Enter a real date that is not in the future');
+export const updateUserSchema = z.object({
+  firstName: z.string().trim().min(1).max(80).optional(),
+  lastName: z.string().trim().min(1).max(80).optional(),
+  phone: z.string().trim().max(30).nullable().optional(),
+  email: email.optional(),
+  admissionNumber: z.string().trim().min(1).max(40).optional(),
+  staffNumber: z.string().trim().min(1).max(40).optional(),
+  dateOfBirth: dateOnly.nullable().optional(),
+}).refine((v) => Object.values(v).some((x) => x !== undefined), { message: 'Nothing to change' });

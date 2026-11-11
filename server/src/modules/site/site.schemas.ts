@@ -82,3 +82,8 @@ export const appListQuery = z.object({ status: z.enum(['received', 'under_review
 export const appStatusSchema = z.object({ status: z.enum(['received', 'under_review', 'interview', 'offered', 'declined', 'withdrawn']), publicNote: t(500).optional(), adminNote: t(1000).optional() });
 export const messageListQuery = z.object({ status: z.enum(['new', 'read', 'archived']).optional(), page: z.coerce.number().int().min(1).default(1), pageSize: z.coerce.number().int().min(1).max(100).default(25) });
 export const messageStatusSchema = z.object({ status: z.enum(['new', 'read', 'archived']) });
+
+export const convertSchema = z.object({
+  email: z.string().trim().toLowerCase().email().max(254), admissionNumber: z.string().trim().min(1).max(40),
+  classId: z.string().uuid().optional(), createParent: z.boolean().default(false),
+});

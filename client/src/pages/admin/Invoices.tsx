@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Alert, Card, DataState, Empty, Field, PageHeader, Select, SmallButton, Table, Td, Th } from '../../components/ui';
 import { InvoiceStatus } from '../../components/FeeBits';
-import { api } from '../../lib/api';
+import { api, downloadFromApi } from '../../lib/api';
 import { fmtDate, naira } from '../../lib/format';
 import type { FeeReport, InvoiceRow, Paged, SchoolClass, Session, Term } from '../../lib/types';
 import { useAction, useFetch } from '../../lib/useFetch';
@@ -43,13 +43,23 @@ export default function Invoices() {
     if (await act.run(async () => { r = await api<ReminderResult>('/fees/reminders', { body: { termId: tid, ...(classId ? { classId } : {}) } }); })) setResult(r!);
   }
 
+  const dl = useAction();
+  const exportQs = new URLSearchParams({ termId: tid, ...(classId && { classId }), ...(status && { status }) });
   const R = report.data;
   return (
     <>
       <PageHeader title="Invoices and payments" intro="See who owes what, record payments made at the school or by transfer, and remind parents." />
       {!termsQ.loading && !terms.length ? <Card><Empty>Set up a session and term first.</Empty></Card> : (
         <>
-          <div className="mb-6 max-w-sm"><Select label="Term" value={tid} onChange={(e) => setTermId(e.target.value)}>{terms.map((t) => <option key={t.id} value={t.id}>{label(t)}</option>)}</Select></div>
+          <div className="mb-6 flex flex-wrap items-end gap-4">
+            <div className="w-full max-w-sm"><Select label="Term" value={tid} onChange={(e) => setTermId(e.target.value)}>{terms.map((t) => <option key={t.id} value={t.id}>{label(t)}</option>)}</Select></div>
+            <div className="flex flex-wrap gap-2">
+              <SmallButton disabled={!tid || dl.busy} onClick={() => dl.run(() => downloadFromApi(`/fees/export/summary.csv?termId=${tid}`, 'fees-summary.csv'))}>Download summary (CSV)</SmallButton>
+              <SmallButton disabled={!tid || dl.busy} onClick={() => dl.run(() => downloadFromApi(`/fees/export/invoices.csv?${exportQs}`, 'invoices.csv'))}>Download invoices (CSV)</SmallButton>
+              <SmallButton disabled={!tid || dl.busy} onClick={() => dl.run(() => downloadFromApi(`/fees/export/payments.csv?termId=${tid}`, 'payments.csv'))}>Download payments (CSV)</SmallButton>
+            </div>
+          </div>
+          {dl.error && <div className="mb-4"><Alert tone="error">{dl.error}</Alert></div>}
           <DataState loading={report.loading && !R} error={report.error}>
             {R && (
               <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

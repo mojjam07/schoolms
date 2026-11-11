@@ -110,3 +110,8 @@ export interface RolloverPreview {
   classes: { fromClassId: string; fromClassName: string; source: 'chosen' | 'default'; target: { graduate: boolean; classId: string | null; className: string; willBeCreated?: boolean } | null;
     students: { studentId: string; name: string; admissionNumber: string | null; outcome: 'promote' | 'repeat' | 'graduate' | 'skip-excluded' | 'skip-already' }[] }[];
 }
+
+// ---- section 2 batch ----
+export interface AccountDetail extends Account { admissionNumber: string | null; dateOfBirth: string | null; staffNumber: string | null }
+export interface ImportResult { dryRun: boolean; totalRows: number; validRows: number; errorRows: number; errors: { row: number; field: string; message: string }[]; moreErrors: number; canImport: boolean; imported: number; emailsAccepted: number }
+export interface AuditEntry { id: string; action: string; entityType: string | null; entityId: string | null; metadata: Record<string, unknown> | null; ip: string | null; createdAt: string; actorId: string | null; actorName: string | null; actorEmail: string | null }
