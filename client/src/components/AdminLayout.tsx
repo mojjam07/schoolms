@@ -23,7 +23,8 @@ const NAV = [
   { to: '/admin/news', label: 'News and events' },
   { to: '/admin/facilities', label: 'Facilities and gallery' },
   { to: '/admin/applications', label: 'Applications' },
-  { to: '/admin/messages', label: 'Messages' },
+  { to: '/admin/messages', label: 'Office messages' },
+  { to: '/admin/messages/all', label: 'All conversations' },
   { to: '/admin/audit', label: 'Audit log' },
 ];
 

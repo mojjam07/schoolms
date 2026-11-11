@@ -1,7 +1,9 @@
 server/src/app.ts: do NOT replace the file. Add these two lines.
 
 1) with the other imports:
-   import auditRoutes from './modules/audit/audit.routes';
+   import messageRoutes from './modules/messages/messages.routes';
 
-2) next to the other app.use('/api/admin/...') lines:
-   app.use('/api/admin/audit-logs', auditRoutes);
+2) next to the other app.use('/api/...') lines:
+   app.use('/api/messages', messageRoutes);
+
+Then run the new migration (014_messaging.sql) the same way you ran 013.

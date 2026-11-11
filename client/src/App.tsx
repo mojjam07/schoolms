@@ -1,78 +1,86 @@
-import { Route, Routes } from 'react-router-dom';
-import { PublicOnly, RequireRole } from './auth/guards';
-import AdminLayout from './components/AdminLayout';
-import { ParentLayout, StudentLayout, TeacherLayout } from './components/RoleLayouts';
-import Notifications from './pages/Notifications';
-import FeeSetup from './pages/admin/FeeSetup';
-import Invoices from './pages/admin/Invoices';
-import InvoiceDetailPage from './pages/admin/InvoiceDetail';
-import OnlinePayments from './pages/admin/OnlinePayments';
-import WebContent from './pages/admin/web/Content';
-import NewsEvents from './pages/admin/web/NewsEvents';
-import FacilitiesGallery from './pages/admin/web/FacilitiesGallery';
-import Applications from './pages/admin/web/Applications';
-import Messages from './pages/admin/web/Messages';
-import Grading from './pages/admin/Grading';
-import AdminResults from './pages/admin/Results';
-import ReportPreview from './pages/admin/ReportPreview';
-import TeacherScores from './pages/teacher/Scores';
-import TeacherAttendance from './pages/teacher/Attendance';
-import TeacherExplanations from './pages/teacher/AttendanceExplanations';
-import TeacherAttendanceSummary from './pages/teacher/AttendanceSummary';
-import AttendanceOverview from './pages/admin/AttendanceOverview';
-import AttendanceRegister from './pages/admin/AttendanceRegister';
-import AdminExplanations from './pages/admin/AttendanceExplanations';
-import AdminAttendanceSummary from './pages/admin/AttendanceSummary';
-import StudentAttendance from './pages/student/Attendance';
-import { StudentResults, StudentReportCard } from './pages/student/Results';
-import { ParentResults, ParentReportCard } from './pages/parent/Results';
-import ParentAttendance from './pages/parent/Attendance';
-import { StudentTimetable, StudentExams } from './pages/student/Schedule';
-import { TeacherTimetable, TeacherExams } from './pages/teacher/Schedule';
-import { ParentTimetable, ParentExams } from './pages/parent/Schedule';
-import ImportStudents from './pages/admin/ImportStudents';
-import AuditLog from './pages/admin/AuditLog';
-import ParentAssignments from './pages/parent/Assignments';
-import AdminTimetable from './pages/admin/Timetable';
-import AdminExams from './pages/admin/ExamSchedules';
-import Rollover from './pages/admin/Rollover';
-import ReceiptPage from './pages/Receipt';
-import ParentFees from './pages/parent/Fees';
-import ParentFeeDetail from './pages/parent/FeeDetail';
-import ParentHome from './pages/parent/Home';
-import TeacherHome from './pages/teacher/Home';
-import TeacherNotes from './pages/teacher/Notes';
-import TeacherVideos from './pages/teacher/Videos';
-import StudentHome from './pages/student/Home';
-import Learning from './pages/student/Learning';
-import TeacherAssignments from './pages/teacher/Assignments';
-import TeacherAssignmentDetail from './pages/teacher/AssignmentDetail';
-import StudentAssignments from './pages/student/Assignments';
-import StudentAssignmentDetail from './pages/student/AssignmentDetail';
-import Overview from './pages/admin/Overview';
-import Academic from './pages/admin/Academic';
-import Classes from './pages/admin/Classes';
-import Accounts from './pages/admin/Accounts';
-import Students from './pages/admin/Students';
-import Teaching from './pages/admin/Teaching';
-import FormTeachers from './pages/admin/FormTeachers';
-import Guardians from './pages/admin/Guardians';
-import ForgotPassword from './pages/ForgotPassword';
-import Login from './pages/Login';
-import SetPassword from './pages/SetPassword';
-import { NotFound } from './pages/Simple';
-import PublicLayout from './components/PublicLayout';
-import Home from './pages/public/Home';
-import About from './pages/public/About';
-import Academics from './pages/public/Academics';
-import Facilities from './pages/public/Facilities';
-import Admissions from './pages/public/Admissions';
-import Apply from './pages/public/Apply';
-import AdmissionStatus from './pages/public/AdmissionStatus';
-import News from './pages/public/News';
-import NewsPost from './pages/public/NewsPost';
-import Contact from './pages/public/Contact';
-import Privacy from './pages/public/Privacy';
+import { Route, Routes } from "react-router-dom";
+import { PublicOnly, RequireRole } from "./auth/guards";
+import AdminLayout from "./components/AdminLayout";
+import {
+  ParentLayout,
+  StudentLayout,
+  TeacherLayout,
+} from "./components/RoleLayouts";
+import Notifications from "./pages/Notifications";
+import FeeSetup from "./pages/admin/FeeSetup";
+import Invoices from "./pages/admin/Invoices";
+import InvoiceDetailPage from "./pages/admin/InvoiceDetail";
+import OnlinePayments from "./pages/admin/OnlinePayments";
+import WebContent from "./pages/admin/web/Content";
+import NewsEvents from "./pages/admin/web/NewsEvents";
+import FacilitiesGallery from "./pages/admin/web/FacilitiesGallery";
+import Applications from "./pages/admin/web/Applications";
+import Messages from "./pages/admin/web/Messages";
+import Grading from "./pages/admin/Grading";
+import AdminResults from "./pages/admin/Results";
+import ReportPreview from "./pages/admin/ReportPreview";
+import TeacherScores from "./pages/teacher/Scores";
+import TeacherAttendance from "./pages/teacher/Attendance";
+import TeacherExplanations from "./pages/teacher/AttendanceExplanations";
+import TeacherAttendanceSummary from "./pages/teacher/AttendanceSummary";
+import AttendanceOverview from "./pages/admin/AttendanceOverview";
+import AttendanceRegister from "./pages/admin/AttendanceRegister";
+import AdminExplanations from "./pages/admin/AttendanceExplanations";
+import AdminAttendanceSummary from "./pages/admin/AttendanceSummary";
+import StudentAttendance from "./pages/student/Attendance";
+import { StudentResults, StudentReportCard } from "./pages/student/Results";
+import { ParentResults, ParentReportCard } from "./pages/parent/Results";
+import ParentAttendance from "./pages/parent/Attendance";
+import { StudentTimetable, StudentExams } from "./pages/student/Schedule";
+import { TeacherTimetable, TeacherExams } from "./pages/teacher/Schedule";
+import { ParentTimetable, ParentExams } from "./pages/parent/Schedule";
+import ImportStudents from "./pages/admin/ImportStudents";
+import AuditLog from "./pages/admin/AuditLog";
+import ParentAssignments from "./pages/parent/Assignments";
+import AdminTimetable from "./pages/admin/Timetable";
+import AdminExams from "./pages/admin/ExamSchedules";
+import Rollover from "./pages/admin/Rollover";
+import ReceiptPage from "./pages/Receipt";
+import ParentFees from "./pages/parent/Fees";
+import ParentFeeDetail from "./pages/parent/FeeDetail";
+import ParentHome from "./pages/parent/Home";
+import TeacherHome from "./pages/teacher/Home";
+import TeacherNotes from "./pages/teacher/Notes";
+import TeacherVideos from "./pages/teacher/Videos";
+import StudentHome from "./pages/student/Home";
+import Learning from "./pages/student/Learning";
+import TeacherAssignments from "./pages/teacher/Assignments";
+import TeacherAssignmentDetail from "./pages/teacher/AssignmentDetail";
+import StudentAssignments from "./pages/student/Assignments";
+import StudentAssignmentDetail from "./pages/student/AssignmentDetail";
+import Overview from "./pages/admin/Overview";
+import Academic from "./pages/admin/Academic";
+import Classes from "./pages/admin/Classes";
+import Accounts from "./pages/admin/Accounts";
+import Students from "./pages/admin/Students";
+import Teaching from "./pages/admin/Teaching";
+import FormTeachers from "./pages/admin/FormTeachers";
+import Guardians from "./pages/admin/Guardians";
+import ForgotPassword from "./pages/ForgotPassword";
+import Login from "./pages/Login";
+import SetPassword from "./pages/SetPassword";
+import { NotFound } from "./pages/Simple";
+import PublicLayout from "./components/PublicLayout";
+import Home from "./pages/public/Home";
+import About from "./pages/public/About";
+import Academics from "./pages/public/Academics";
+import Facilities from "./pages/public/Facilities";
+import Admissions from "./pages/public/Admissions";
+import Apply from "./pages/public/Apply";
+import AdmissionStatus from "./pages/public/AdmissionStatus";
+import News from "./pages/public/News";
+import NewsPost from "./pages/public/NewsPost";
+import Contact from "./pages/public/Contact";
+import Privacy from "./pages/public/Privacy";
+import MessagesInbox from "./pages/messages/Inbox";
+import NewMessage from "./pages/messages/NewMessage";
+import MessageThread from "./pages/messages/Thread";
+import MessageOversight from "./pages/admin/MessageOversight";
 
 export default function App() {
   return (
@@ -112,13 +120,22 @@ export default function App() {
           <Route path="rollover" element={<Rollover />} />
           <Route path="attendance" element={<AttendanceOverview />} />
           <Route path="attendance/register" element={<AttendanceRegister />} />
-          <Route path="attendance/explanations" element={<AdminExplanations />} />
-          <Route path="attendance/summary" element={<AdminAttendanceSummary />} />
+          <Route
+            path="attendance/explanations"
+            element={<AdminExplanations />}
+          />
+          <Route
+            path="attendance/summary"
+            element={<AdminAttendanceSummary />}
+          />
           <Route path="form-teachers" element={<FormTeachers />} />
           <Route path="guardians" element={<Guardians />} />
           <Route path="grading" element={<Grading />} />
           <Route path="results" element={<AdminResults />} />
-          <Route path="results/:termId/:studentId" element={<ReportPreview />} />
+          <Route
+            path="results/:termId/:studentId"
+            element={<ReportPreview />}
+          />
           <Route path="fees" element={<FeeSetup />} />
           <Route path="invoices" element={<Invoices />} />
           <Route path="invoices/:id" element={<InvoiceDetailPage />} />
@@ -127,8 +144,13 @@ export default function App() {
           <Route path="news" element={<NewsEvents />} />
           <Route path="facilities" element={<FacilitiesGallery />} />
           <Route path="applications" element={<Applications />} />
-          <Route path="messages" element={<Messages />} />
-          <Route path="receipts/:id" element={<ReceiptPage backTo="/admin/invoices" />} />
+          <Route path="messages" element={<MessagesInbox base="/admin" canStart={false} />} />
+          <Route path="messages/all" element={<MessageOversight />} />
+          <Route path="messages/:id" element={<MessageThread base="/admin" />} />
+          <Route
+            path="receipts/:id"
+            element={<ReceiptPage backTo="/admin/invoices" />}
+          />
         </Route>
       </Route>
       <Route element={<RequireRole role="teacher" />}>
@@ -142,9 +164,21 @@ export default function App() {
           <Route path="timetable" element={<TeacherTimetable />} />
           <Route path="exams" element={<TeacherExams />} />
           <Route path="attendance" element={<TeacherAttendance />} />
-          <Route path="attendance/explanations" element={<TeacherExplanations />} />
-          <Route path="attendance/summary" element={<TeacherAttendanceSummary />} />
+          <Route
+            path="attendance/explanations"
+            element={<TeacherExplanations />}
+          />
+          <Route
+            path="attendance/summary"
+            element={<TeacherAttendanceSummary />}
+          />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="messages" element={<MessagesInbox base="/teacher" />} />
+          <Route path="messages/new" element={<NewMessage base="/teacher" />} />
+          <Route
+            path="messages/:id"
+            element={<MessageThread base="/teacher" />}
+          />
         </Route>
       </Route>
       <Route element={<RequireRole role="student" />}>
@@ -169,11 +203,23 @@ export default function App() {
           <Route path="exams" element={<ParentExams />} />
           <Route path="attendance" element={<ParentAttendance />} />
           <Route path="results" element={<ParentResults />} />
-          <Route path="results/:studentId/:termId" element={<ParentReportCard />} />
+          <Route
+            path="results/:studentId/:termId"
+            element={<ParentReportCard />}
+          />
           <Route path="fees" element={<ParentFees />} />
           <Route path="fees/:id" element={<ParentFeeDetail />} />
-          <Route path="receipts/:id" element={<ReceiptPage backTo="/parent/fees" />} />
+          <Route
+            path="receipts/:id"
+            element={<ReceiptPage backTo="/parent/fees" />}
+          />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="messages" element={<MessagesInbox base="/parent" />} />
+          <Route path="messages/new" element={<NewMessage base="/parent" />} />
+          <Route
+            path="messages/:id"
+            element={<MessageThread base="/parent" />}
+          />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
