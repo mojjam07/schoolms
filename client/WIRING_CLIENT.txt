@@ -2,12 +2,13 @@ Client wiring (small edits, do not replace the files)
 
 client/src/App.tsx
   imports:
-    import AdminDashboard from './pages/admin/AdminDashboard';
-    import TeacherDashboard from './pages/teacher/TeacherDashboard';
-  change the two index routes (lines 102 and 136 in the Phase 9 copy):
-    <Route index element={<Overview />} />      ->  <Route index element={<AdminDashboard />} />
-    <Route index element={<TeacherHome />} />   ->  <Route index element={<TeacherDashboard />} />
-  The old Overview and TeacherHome files can stay until you are happy with the new ones.
+    import StudentDashboard from './pages/student/StudentDashboard';
+    import ParentDashboard from './pages/parent/ParentDashboard';
+  change the two index routes:
+    <Route index element={<StudentHome />} />  ->  <Route index element={<StudentDashboard />} />
+    <Route index element={<ParentHome />} />   ->  <Route index element={<ParentDashboard />} />
 
-Links used on the pages (change them if your route paths differ):
-  /admin/applications, /admin/invoices, /admin/audit, /admin/messages/all (Phase 10), /teacher/messages (Phase 10), /teacher/assignments/:id
+New shared component: client/src/components/ChildOverview.tsx
+Link targets used (all exist in the Phase 9 App.tsx): /student|/parent + /timetable, /exams, /attendance, /assignments;
+  /student/assignments/:id, /student/results/:termId, /student/learning, /student/notifications,
+  /parent/results/:studentId/:termId, /parent/fees/:id, /parent/notifications, /parent/messages (Phase 10).

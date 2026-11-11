@@ -84,6 +84,8 @@ import MessageOversight from "./pages/admin/MessageOversight";
 import DataPrivacy from "./pages/admin/DataPrivacy";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import ParentDashboard from "./pages/parent/ParentDashboard";
 
 export default function App() {
   return (
@@ -193,7 +195,7 @@ export default function App() {
       </Route>
       <Route element={<RequireRole role="student" />}>
         <Route path="/student" element={<StudentLayout />}>
-          <Route index element={<StudentHome />} />
+          <Route index element={<StudentDashboard />} />
           <Route path="learning" element={<Learning />} />
           <Route path="assignments" element={<StudentAssignments />} />
           <Route path="assignments/:id" element={<StudentAssignmentDetail />} />
@@ -207,7 +209,7 @@ export default function App() {
       </Route>
       <Route element={<RequireRole role="parent" />}>
         <Route path="/parent" element={<ParentLayout />}>
-          <Route index element={<ParentHome />} />
+          <Route index element={<ParentDashboard />} />
           <Route path="assignments" element={<ParentAssignments />} />
           <Route path="timetable" element={<ParentTimetable />} />
           <Route path="exams" element={<ParentExams />} />
