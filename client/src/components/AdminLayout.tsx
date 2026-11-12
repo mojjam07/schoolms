@@ -1,4 +1,4 @@
-import PortalLayout from './PortalLayout';
+import PortalLayout from "./PortalLayout";
 
 const NAV = [
   { to: "/admin", label: "Overview", end: true },
@@ -27,6 +27,12 @@ const NAV = [
   { to: "/admin/messages/all", label: "All conversations" },
   { to: "/admin/audit", label: "Audit log" },
   { to: "/admin/data", label: "Data and privacy" },
+  { to: "/admin/family-requests", label: "Guardian requests" },
+  { to: "/admin/inbox", label: "Office messages" },
+  { to: "/admin/messages/all", label: "All conversations" },
+  { to: "/admin/family-requests", label: "Guardian requests" },
+  { to: "/admin/data", label: "Data and privacy" },
+  { to: "/admin/preferences", label: "Notification settings" },
 ];
 
 export default function AdminLayout() {

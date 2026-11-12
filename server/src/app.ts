@@ -11,6 +11,7 @@ import academicRoutes from "./modules/academic/academic.routes";
 import assignmentRoutes from "./modules/assignments/assignments.routes";
 import { adminSiteRoutes, publicRoutes } from "./modules/site/site.routes";
 import attendanceRoutes from "./modules/attendance/attendance.routes";
+import quizRoutes from "./modules/quizzes/quizzes.routes";
 import rolloverRoutes from "./modules/rollover/rollover.routes";
 import scheduleRoutes from "./modules/schedule/schedule.routes";
 import resultsRoutes from "./modules/results/results.routes";
@@ -25,6 +26,7 @@ import messageRoutes from "./modules/messages/messages.routes";
 import dataProtectionRoutes from "./modules/dataprotection/dataprotection.routes";
 import dashboardRoutes from "./modules/dashboard/dashboard.routes";
 import resultsHistoryRoutes from "./modules/results/history.routes";
+import familyRoutes from "./modules/family/family.routes";
 
 export const app = express();
 app.set("trust proxy", 1); // Render sits behind a proxy
@@ -72,6 +74,7 @@ app.use("/api", assignmentRoutes);
 app.use("/api", feesRoutes);
 app.use("/api", resultsRoutes);
 app.use("/api", attendanceRoutes);
+app.use("/api/quizzes", quizRoutes);
 app.use("/api", scheduleRoutes);
 app.use("/api", rolloverRoutes);
 app.use("/api/public", publicRoutes);
@@ -81,6 +84,7 @@ app.use("/api/admin/data", dataProtectionRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/results-history", resultsHistoryRoutes);
+app.use("/api/family", familyRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

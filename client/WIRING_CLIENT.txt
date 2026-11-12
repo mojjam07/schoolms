@@ -2,11 +2,22 @@ Client wiring (small edits, do not replace the files)
 
 client/src/App.tsx
   imports:
-    import StudentResultsHistory from './pages/student/ResultsHistory';
-    import ParentResultsHistory from './pages/parent/ResultsHistory';
-  routes (put each BEFORE its "results/:..." route):
-    student:  <Route path="results/history" element={<StudentResultsHistory />} />
-    parent:   <Route path="results/history" element={<ParentResultsHistory />} />
+    import TeacherQuizzes from './pages/teacher/Quizzes';
+    import QuizEditor from './pages/teacher/QuizEditor';
+    import QuizDetail from './pages/teacher/QuizDetail';
+    import StudentQuizzes from './pages/student/Quizzes';
+    import TakeQuiz from './pages/student/TakeQuiz';
+    import ParentQuizzes from './pages/parent/Quizzes';
+  routes:
+    teacher:  <Route path="quizzes" element={<TeacherQuizzes />} />
+              <Route path="quizzes/new" element={<QuizEditor />} />
+              <Route path="quizzes/:id" element={<QuizDetail />} />
+              <Route path="quizzes/:id/edit" element={<QuizEditor />} />
+    student:  <Route path="quizzes" element={<StudentQuizzes />} />
+              <Route path="quizzes/attempt/:attemptId" element={<TakeQuiz />} />
+    parent:   <Route path="quizzes" element={<ParentQuizzes />} />
 
-Add a link to the history from the existing results pages (client/src/pages/student/Results.tsx and parent/Results.tsx):
-    <Link to="/student/results/history">See progress over time</Link>      (parent: /parent/results/history)
+client/src/components/RoleLayouts.tsx: add { to: '/teacher/quizzes', label: 'Quizzes' }, { to: '/student/quizzes', label: 'Quizzes' }, { to: '/parent/quizzes', label: 'Quizzes' } to the three navs.
+
+Note: QuizEditor calls useFetch(null) when creating a new quiz. If your useFetch does not accept null to mean "do not fetch",
+change that one line to pass a URL only when `id` exists (or split create and edit into two small components).

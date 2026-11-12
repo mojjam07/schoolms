@@ -88,6 +88,15 @@ import StudentDashboard from "./pages/student/StudentDashboard";
 import ParentDashboard from "./pages/parent/ParentDashboard";
 import StudentResultsHistory from "./pages/student/ResultsHistory";
 import ParentResultsHistory from "./pages/parent/ResultsHistory";
+import ParentAccount from "./pages/parent/Account";
+import FamilyRequests from "./pages/admin/FamilyRequests";
+import NotificationPreferences from "./pages/shared/NotificationPreferences";
+import TeacherQuizzes from "./pages/teacher/Quizzes";
+import QuizEditor from "./pages/teacher/QuizEditor";
+import QuizDetail from "./pages/teacher/QuizDetail";
+import StudentQuizzes from "./pages/student/Quizzes";
+import TakeQuiz from "./pages/student/TakeQuiz";
+import ParentQuizzes from "./pages/parent/Quizzes";
 
 export default function App() {
   return (
@@ -165,6 +174,8 @@ export default function App() {
             path="receipts/:id"
             element={<ReceiptPage backTo="/admin/invoices" />}
           />
+          <Route path="family-requests" element={<FamilyRequests />} />
+          <Route path="preferences" element={<NotificationPreferences />} />
         </Route>
       </Route>
       <Route element={<RequireRole role="teacher" />}>
@@ -177,6 +188,10 @@ export default function App() {
           <Route path="scores" element={<TeacherScores />} />
           <Route path="timetable" element={<TeacherTimetable />} />
           <Route path="exams" element={<TeacherExams />} />
+          <Route path="quizzes" element={<TeacherQuizzes />} />
+          <Route path="quizzes/new" element={<QuizEditor />} />
+          <Route path="quizzes/:id" element={<QuizDetail />} />
+          <Route path="quizzes/:id/edit" element={<QuizEditor />} />
           <Route path="attendance" element={<TeacherAttendance />} />
           <Route
             path="attendance/explanations"
@@ -193,6 +208,7 @@ export default function App() {
             path="messages/:id"
             element={<MessageThread base="/teacher" />}
           />
+          <Route path="preferences" element={<NotificationPreferences />} />
         </Route>
       </Route>
       <Route element={<RequireRole role="student" />}>
@@ -203,11 +219,14 @@ export default function App() {
           <Route path="assignments/:id" element={<StudentAssignmentDetail />} />
           <Route path="timetable" element={<StudentTimetable />} />
           <Route path="exams" element={<StudentExams />} />
+          <Route path="quizzes" element={<StudentQuizzes />} />
+          <Route path="quizzes/attempt/:attemptId" element={<TakeQuiz />} />
           <Route path="attendance" element={<StudentAttendance />} />
           <Route path="results" element={<StudentResults />} />
           <Route path="results/history" element={<StudentResultsHistory />} />
           <Route path="results/:termId" element={<StudentReportCard />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="preferences" element={<NotificationPreferences />} />
         </Route>
       </Route>
       <Route element={<RequireRole role="parent" />}>
@@ -217,6 +236,7 @@ export default function App() {
           <Route path="timetable" element={<ParentTimetable />} />
           <Route path="exams" element={<ParentExams />} />
           <Route path="attendance" element={<ParentAttendance />} />
+          <Route path="quizzes" element={<ParentQuizzes />} />
           <Route path="results" element={<ParentResults />} />
           <Route path="results/history" element={<ParentResultsHistory />} />
           <Route
@@ -236,6 +256,8 @@ export default function App() {
             path="messages/:id"
             element={<MessageThread base="/parent" />}
           />
+          <Route path="account" element={<ParentAccount />} />
+          <Route path="preferences" element={<NotificationPreferences />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
