@@ -1,23 +1,12 @@
-Client wiring (small edits, do not replace the files)
+Client wiring
 
-client/src/App.tsx
-  imports:
-    import TeacherQuizzes from './pages/teacher/Quizzes';
-    import QuizEditor from './pages/teacher/QuizEditor';
-    import QuizDetail from './pages/teacher/QuizDetail';
-    import StudentQuizzes from './pages/student/Quizzes';
-    import TakeQuiz from './pages/student/TakeQuiz';
-    import ParentQuizzes from './pages/parent/Quizzes';
-  routes:
-    teacher:  <Route path="quizzes" element={<TeacherQuizzes />} />
-              <Route path="quizzes/new" element={<QuizEditor />} />
-              <Route path="quizzes/:id" element={<QuizDetail />} />
-              <Route path="quizzes/:id/edit" element={<QuizEditor />} />
-    student:  <Route path="quizzes" element={<StudentQuizzes />} />
-              <Route path="quizzes/attempt/:attemptId" element={<TakeQuiz />} />
-    parent:   <Route path="quizzes" element={<ParentQuizzes />} />
+Copy these four files over yours (same paths). The two invoice pages already contain the Phase 17 instalment plan plus the new buttons:
+  client/src/components/DownloadPdfButton.tsx      (new)
+  client/src/pages/admin/InvoiceDetail.tsx         (adds "Download statement (PDF)" and a "PDF" button on each payment)
+  client/src/pages/parent/FeeDetail.tsx            (same, for parents)
+  client/src/pages/Receipt.tsx                     (adds a "Download PDF" button next to Print receipt; hidden for reversed payments)
 
-client/src/components/RoleLayouts.tsx: add { to: '/teacher/quizzes', label: 'Quizzes' }, { to: '/student/quizzes', label: 'Quizzes' }, { to: '/parent/quizzes', label: 'Quizzes' } to the three navs.
-
-Note: QuizEditor calls useFetch(null) when creating a new quiz. If your useFetch does not accept null to mean "do not fetch",
-change that one line to pass a URL only when `id` exists (or split create and edit into two small components).
+If you have changed either invoice page since the Phase 17 copy, make the small edits by hand instead:
+  import DownloadPdfButton from '../../components/DownloadPdfButton';
+  <DownloadPdfButton path={`/pdf/invoices/${id}`} filename={`statement-${d.number}.pdf`} label="Download statement (PDF)" />
+  <DownloadPdfButton path={`/pdf/receipts/${p.id}`} filename={`receipt-${p.receiptNumber}.pdf`} label="PDF" />

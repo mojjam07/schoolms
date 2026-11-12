@@ -5,7 +5,7 @@ export interface Session {
   endDate: string;
   isCurrent: boolean;
 }
-export type Role = 'admin' | 'teacher' | 'student' | 'parent';
+export type Role = "admin" | "teacher" | "student" | "parent";
 export interface Term {
   id: string;
   sessionId: string;

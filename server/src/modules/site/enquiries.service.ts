@@ -137,7 +137,7 @@ export async function convertApplication(id: string, i: { email: string; admissi
     await audit({ actorId, action: 'application.converted', entityType: 'application', entityId: id, metadata: { studentId, parent: parentNote, enrolled: !!i.classId }, ip }, c);
     return { studentId, studentToken, parentToken, parentNote, a };
   });
-  const send = async (to: string, name: string, token: string) => (await sendMail({ to, subject: 'Activate your Kingdom of Knowledge account', text: `Hello ${name},\n\nAn account has been created for you. Set your password within 72 hours:\n${activationLink(token)}` })).accepted;
+  const send = async (to: string, name: string, token: string) => (await sendMail({ to, subject: 'Activate your [School Name] account', text: `Hello ${name},\n\nAn account has been created for you. Set your password within 72 hours:\n${activationLink(token)}` })).accepted;
   return {
     studentId: made.studentId, parent: made.parentNote,
     studentEmailAccepted: await send(i.email, made.a.first_name, made.studentToken),

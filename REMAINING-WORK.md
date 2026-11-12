@@ -4,6 +4,8 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 
 ## Where the project stands
 
+> Update (Phases 10 to 19): messaging, data-protection tooling, dashboards for all four roles, results history, family account and notification preferences, quizzes, instalment plans, PDF statements and receipts, and the documentation pack were written. **None of it has been run or type-checked by its author** (no full repository was available); each phase has its own test file and README. Section 3a (real services and deployment) is still the next step and needs your accounts.
+
 > Update: timetables, exam schedules and session promotion were added in Phase 8. The new screens were type-checked and built, and the API was tested (67 checks), but they have **not been opened in a browser yet**.
 
 **Built and tested locally** (React + TypeScript frontend, Express API, PostgreSQL):
@@ -40,22 +42,22 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 
 - [x] **M** **Timetables and examination schedules.** DONE (see README, Phase 8). Administrators build them; students, parents and teachers view them; "Upcoming examinations" shows on the student and parent dashboards. Not done: invigilator assignment and exam seating.
 - [x] **M** **Promotion and new-session rollover.** DONE (see README, Phase 8). Preview, then run once: moves students up, graduates the final year, handles repeaters and leavers, carries over form teachers, teaching assignments and optionally the timetable. Fees and grading columns for the new session are still set up by hand.
-- [ ] **M** **Quizzes and tests.** The spec says "manage permitted quizzes and tests". Only assignments and score entry exist.
-- [ ] **M** **Results history.** Progress across terms, plus an annual or cumulative result.
+- [x] **M** **Quizzes and tests.** The spec says "manage permitted quizzes and tests". Only assignments and score entry exist. **BUILT (Phase 16, not yet run: single-answer multiple choice, timed attempts, automatic marking; scores do not feed report cards automatically)**
+- [x] **M** **Results history.** Progress across terms, plus an annual or cumulative result. **BUILT (Phase 14, not yet run: term-by-term table and trend, yearly result marked provisional until 3 terms are published; no class position)**
 - [x] **M** **CSV import of students.** Validated, with a dry run and an error report. **DONE (Phase 9):** Admin > Import students. Dry run with a per-line error report, all-or-nothing creation, up to 500 rows, optional class column.
 - [x] **M** **Edit existing people.** Names, phone numbers, admission and staff numbers, date of birth, email. Today an account can only be created, suspended or reactivated. **DONE (Phase 9):** Edit button on Accounts. Changing an email signs the person out; an unactivated account gets a fresh activation link.
 
 ### Parents and communication
 
-- [ ] **L** **Parent–teacher and parent–staff messaging.** Threads, tracking of enquiries, replies, teacher contact details protected, and safeguarding rules.
+- [x] **L** **Parent–teacher and parent–staff messaging.** Threads, tracking of enquiries, replies, teacher contact details protected, and safeguarding rules. **BUILT (Phase 10, not yet run)**
 - [x] **S** **Parents can see their child's assignments** and deadlines. Parents currently get results, fees and attendance, but not assignments. **DONE (Phase 9):** Parent > Assignments (titles, deadlines and handed-in status; not the instructions).
-- [ ] **M** **Family account management.** Update contact details, notification preferences, and request corrections to guardian relationships (which an administrator verifies).
-- [ ] **M** **Notification preferences.** Choose what to receive. Email delivery tracking exists only for fee and admission emails.
+- [x] **M** **Family account management.** Update contact details, notification preferences, and request corrections to guardian relationships (which an administrator verifies). **BUILT (Phase 15, not yet run)**
+- [ ] **M** **Notification preferences.** Choose what to receive. Email delivery tracking exists only for fee and admission emails. **STARTED (Phase 15): the choices are saved and shown, but the notification and email senders do not check them yet. Needs the sender code.**
 - [ ] **M** **SMS** (optional in your spec).
 
 ### Dashboards
 
-- [ ] **M** **Administrator overview** as specced:
+- [x] **M** **Administrator overview** as specced: **BUILT (Phase 12, not yet run)**
   - students by class
   - pending assignments and submissions
   - recent admissions
@@ -63,8 +65,8 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
   - recent announcements
   - recent administrator actions
 - [x] **S** **Audit log viewer.** The log is written everywhere but cannot be read in the app. **DONE (Phase 9):** Admin > Audit log, read-only, with search, action and date filters.
-- [ ] **M** **Teacher dashboard.** Upcoming assignments, work waiting to be marked, announcements, resources. It currently shows only classes.
-- [ ] **M** **Student and parent dashboards** as one overview page. This is currently spread across separate pages.
+- [x] **M** **Teacher dashboard.** Upcoming assignments, work waiting to be marked, announcements, resources. It currently shows only classes. **BUILT (Phase 12, not yet run)**
+- [x] **M** **Student and parent dashboards** as one overview page. This is currently spread across separate pages. **BUILT (Phase 13, not yet run)**
 
 ### Teaching content
 
@@ -74,8 +76,8 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 ### Money
 
 - [x] **S** Export financial reports to CSV or Excel. **DONE (Phase 9):** Invoices page: summary, invoices and payments as CSV (opens in Excel).
-- [ ] **M** Instalment plans.
-- [ ] **S** Receipts and report cards as downloadable PDFs (today they print from the browser).
+- [x] **M** Instalment plans. **BUILT (Phase 17, not yet run: schedule only, reminders in-app)**
+- [ ] **S** Receipts and report cards as downloadable PDFs (today they print from the browser). **PARTLY BUILT (Phase 18, not yet run): fee statements and receipts. Report cards are still browser-printed.**
 
 ### Public website
 
@@ -111,17 +113,17 @@ Sizes: **S** = under a day, **M** = a few days, **L** = a week or more. They are
 - [ ] **S** Add security headers and a content-security policy on the frontend host.
 - [ ] **M** Review sessions, idle timeout, lockout after repeated failures, and optional two-step sign-in.
 - [ ] **M** Scan uploads for malware, and guard against oversized or malicious images.
-- [ ] **M** **Data-protection tooling.** Data export and deletion on request, a retention schedule, and automatic cleanup of old notifications, unattached uploads and old applications.
-- [ ] **S** Write down and rehearse backups and recovery (Supabase backups).
+- [x] **M** **Data-protection tooling.** Data export and deletion on request, a retention schedule, and automatic cleanup of old notifications, unattached uploads and old applications. **PARTLY BUILT (Phase 11, not yet run: retention clean-up and per-person export. Erasure on request is NOT built; file deletion needs one hook)**
+- [ ] **S** Write down and rehearse backups and recovery (Supabase backups). **WRITTEN (Phase 19): docs/OPERATIONS.md and tools/backup.sh. The restore drill has not been done.**
 - [ ] **S** Error tracking and monitoring.
 - [ ] **M** Accessibility audit: keyboard use, screen readers, colour contrast.
 - [ ] **S** Load check on the busiest pages (results day, fee reminders).
 
 ### 3c. Documentation and operations
 
-- [ ] **S** One consolidated setup guide with a table of every environment variable.
-- [ ] **S** A deployment checklist: migrations, first administrator, removing demo data, rotating secrets, switching Paystack to live.
-- [ ] **M** Short user guides for administrators, teachers, parents and students.
+- [x] **S** One consolidated setup guide with a table of every environment variable. **WRITTEN (Phase 19): docs/SETUP-GUIDE.md; run `node tools/env-table.mjs > docs/ENVIRONMENT.md` for the table.**
+- [x] **S** A deployment checklist: migrations, first administrator, removing demo data, rotating secrets, switching Paystack to live. **WRITTEN (Phase 19): docs/DEPLOYMENT-CHECKLIST.md; nothing on it has been done yet.**
+- [x] **M** Short user guides for administrators, teachers, parents and students. **WRITTEN (Phase 19): docs/guides/. Check them against the real screens once the app has been opened in a browser.**
 
 ---
 

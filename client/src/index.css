@@ -22,12 +22,29 @@
   --color-paper: #fbfcf9;
 }
 
-body { font-family: var(--font-sans); color: var(--color-ink); background: var(--color-paper); }
-:focus-visible { outline: 3px solid var(--color-gold-500); outline-offset: 2px; }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+:focus-visible {
+  outline: 3px solid var(--color-gold-500);
+  outline-offset: 2px;
+}
 
 @media print {
-  aside, header, .no-print { display: none !important; }
-  #root > div { display: block !important; }
-  main { padding: 0 !important; }
-  body { background: #fff; }
+  aside,
+  header,
+  .no-print {
+    display: none !important;
+  }
+  #root > div {
+    display: block !important;
+  }
+  main {
+    padding: 0 !important;
+  }
+  body {
+    background: #fff;
+  }
 }

@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Alert, Button, Card, DataState, Empty, Field, PageHeader, SmallButton, Table, Td, Th } from '../../components/ui';
 import { InvoiceStatus, METHOD_LABEL } from '../../components/FeeBits';
+import InstalmentPlan from '../../components/InstalmentPlan';
+import DownloadPdfButton from '../../components/DownloadPdfButton';
 import { api } from '../../lib/api';
 import { fmtDate, fmtDateTime, nairaInput, naira, toKobo } from '../../lib/format';
 import type { ParentInvoiceDetail } from '../../lib/types';
@@ -58,7 +60,7 @@ export default function ParentFeeDetail() {
             <PageHeader title={`${d.studentName}: ${d.sessionName} ${d.termName}`} intro={`${d.className} · ${d.number}${d.dueDate ? ` · pay by ${fmtDate(d.dueDate)}` : ''}`} />
             {verdict && <div className="mb-4"><Alert tone={verdict.tone}>{verdict.text}</Alert></div>}
             {check.error && <div className="mb-4"><Alert tone="error">{check.error}</Alert></div>}
-            <div className="mb-6 flex flex-wrap items-center gap-3"><InvoiceStatus i={d} /><span className="text-lg font-semibold">{d.balanceKobo > 0 ? `${naira(d.balanceKobo)} to pay` : 'Nothing to pay'}</span></div>
+            <div className="mb-6 flex flex-wrap items-center gap-3"><InvoiceStatus i={d} /><span className="text-lg font-semibold">{d.balanceKobo > 0 ? `${naira(d.balanceKobo)} to pay` : 'Nothing to pay'}</span><DownloadPdfButton path={`/pdf/invoices/${id}`} filename={`statement-${d.number}.pdf`} label="Download statement (PDF)" /></div>
 
             {d.balanceKobo > 0 && (
               <div className="mb-6">
@@ -99,11 +101,15 @@ export default function ParentFeeDetail() {
                     <tbody>{d.payments.map((p) => (
                       <tr key={p.id} className={p.reversed ? 'text-muted line-through' : ''}>
                         <Td>{fmtDateTime(p.paidAt)}<div className="text-muted">{METHOD_LABEL[p.method]} · {p.receiptNumber}</div>
-                          <div className="no-underline">{p.reversed ? <span>Reversed</span> : <Link className="font-medium text-brand-700 underline" to={`/parent/receipts/${p.id}`}>View receipt</Link>}</div></Td>
+                          <div className="no-underline">{p.reversed ? <span>Reversed</span> : <><Link className="font-medium text-brand-700 underline" to={`/parent/receipts/${p.id}`}>View receipt</Link> <DownloadPdfButton path={`/pdf/receipts/${p.id}`} filename={`receipt-${p.receiptNumber}.pdf`} label="PDF" /></>}</div></Td>
                         <Td>{naira(p.amountKobo)}</Td>
                       </tr>))}</tbody></Table>
                 ) : <Empty>No payments received yet.</Empty>}
               </Card>
+            </div>
+
+            <div className="mt-6">
+              <InstalmentPlan invoiceId={id} role="parent" />
             </div>
           </>
         )}

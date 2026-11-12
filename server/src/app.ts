@@ -27,6 +27,8 @@ import dataProtectionRoutes from "./modules/dataprotection/dataprotection.routes
 import dashboardRoutes from "./modules/dashboard/dashboard.routes";
 import resultsHistoryRoutes from "./modules/results/history.routes";
 import familyRoutes from "./modules/family/family.routes";
+import instalmentRoutes from "./modules/instalments/instalments.routes";
+import pdfRoutes from "./modules/pdf/pdf.routes";
 
 export const app = express();
 app.set("trust proxy", 1); // Render sits behind a proxy
@@ -85,6 +87,8 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/results-history", resultsHistoryRoutes);
 app.use("/api/family", familyRoutes);
+app.use("/api/instalments", instalmentRoutes);
+app.use("/api/pdf", pdfRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

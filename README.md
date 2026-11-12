@@ -1,4 +1,4 @@
-# Kingdom of Knowledge – School Management and E-Learning
+# [School Name] – School Management and E-Learning
 
 Monorepo: `server/` (Express + PostgreSQL) and `client/` (React + Vite + Tailwind).
 

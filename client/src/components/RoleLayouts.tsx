@@ -14,7 +14,6 @@ export const TeacherLayout = () => (
       { to: "/teacher/attendance", label: "Attendance" },
       { to: "/teacher/scores", label: "Scores" },
       { to: "/teacher/messages", label: "Messages" },
-      { to: "/teacher/messages", label: "Messages" },
       { to: "/teacher/quizzes", label: "Quizzes" },
       { to: "/teacher/preferences", label: "Notification settings" },
     ]}
@@ -53,16 +52,8 @@ export const ParentLayout = () => (
       { to: "/parent/fees", label: "School fees" },
       { to: "/parent/messages", label: "Messages" },
       { to: "/parent/account", label: "My account" },
-      { to: "/parent/messages", label: "Messages" },
-      { to: "/parent/account", label: "My account" },
       { to: "/parent/preferences", label: "Notification settings" },
       { to: "/parent/quizzes", label: "Quizzes" },
     ]}
   />
 );
-
-// TeacherLayout
-
-// StudentLayout
-
-// ParentLayout

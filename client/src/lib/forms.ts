@@ -1,4 +1,4 @@
-import { ApiError } from './api';
+import { ApiError } from "./api";
 
 export function fieldErrors(err: unknown): Record<string, string> {
   if (err instanceof ApiError && err.details) {
@@ -8,4 +8,6 @@ export function fieldErrors(err: unknown): Record<string, string> {
 }
 
 export const messageOf = (err: unknown) =>
-  err instanceof ApiError ? err.message : 'Something went wrong. Please try again.';
+  err instanceof ApiError
+    ? err.message
+    : "Something went wrong. Please try again.";

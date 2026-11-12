@@ -161,8 +161,9 @@ export default function App() {
           <Route path="news" element={<NewsEvents />} />
           <Route path="facilities" element={<FacilitiesGallery />} />
           <Route path="applications" element={<Applications />} />
+          <Route path="messages" element={<Messages />} />
           <Route
-            path="messages"
+            path="inbox"
             element={<MessagesInbox base="/admin" canStart={false} />}
           />
           <Route path="messages/all" element={<MessageOversight />} />
