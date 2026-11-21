@@ -4,6 +4,7 @@ import { AuthLayout } from "../components/AuthLayout";
 import { Alert, Button, Field } from "../components/ui";
 import { api } from "../lib/api";
 import { fieldErrors, messageOf } from "../lib/forms";
+import PortalFooter from "../components/PortalFooter";
 
 // One component serves both "activate account" and "reset password": same form, different endpoint and wording.
 export default function SetPassword({ mode }: { mode: "activate" | "reset" }) {
@@ -106,6 +107,7 @@ export default function SetPassword({ mode }: { mode: "activate" | "reset" }) {
           {copy.action}
         </Button>
       </form>
+      <PortalFooter />
     </AuthLayout>
   );
 }

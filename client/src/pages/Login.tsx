@@ -5,6 +5,8 @@ import { homeFor } from "../auth/guards";
 import { AuthLayout } from "../components/AuthLayout";
 import { Alert, Button, Field } from "../components/ui";
 import { fieldErrors, messageOf } from "../lib/forms";
+import PortalFooter from "../components/PortalFooter";
+import Logo from "../components/Logo";
 
 export default function Login() {
   const { login } = useAuth();
@@ -72,6 +74,7 @@ export default function Login() {
           </Link>
         </p>
       </form>
+      <PortalFooter />
     </AuthLayout>
   );
 }

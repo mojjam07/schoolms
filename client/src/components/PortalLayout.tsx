@@ -2,6 +2,8 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { useUnreadCount } from "../lib/useUnread";
+import PortalFooter from "./PortalFooter";
+import Logo from "./Logo";
 
 export interface NavItem {
   to: string;
@@ -71,7 +73,7 @@ export default function PortalLayout({
       >
         <div className="hidden border-b-4 border-gold-400 px-5 py-5 lg:block">
           <p className="font-display text-xl font-bold leading-tight">
-            [School Name]
+            <Logo size={32} />
           </p>
           <p className="mt-1 text-sm text-brand-100">{roleLabel}</p>
         </div>
@@ -113,6 +115,7 @@ export default function PortalLayout({
 
       <main className="min-w-0 p-5 sm:p-8">
         <Outlet />
+        <PortalFooter />
       </main>
     </div>
   );

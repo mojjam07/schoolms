@@ -4,6 +4,7 @@ import { AuthLayout } from "../components/AuthLayout";
 import { Alert, Button, Field } from "../components/ui";
 import { api } from "../lib/api";
 import { fieldErrors, messageOf } from "../lib/forms";
+import PortalFooter from "../components/PortalFooter";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -65,6 +66,7 @@ export default function ForgotPassword() {
           </p>
         </form>
       )}
+      <PortalFooter />
     </AuthLayout>
   );
 }

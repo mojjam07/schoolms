@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 export function AuthLayout({
   title,
@@ -14,7 +15,7 @@ export function AuthLayout({
     <div className="grid min-h-screen lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
       <aside className="flex flex-col justify-between bg-brand-500 p-8 text-white lg:p-14">
         <Link to="/" className="font-display text-2xl font-bold">
-          [School Name]
+          <Logo size={56} />
         </Link>
         <div className="hidden lg:block">
           <p className="font-display text-4xl font-bold leading-tight">

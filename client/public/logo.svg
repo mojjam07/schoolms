@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">
+  <title id="t">Kingdom of Knowledge</title>
+  <rect width="128" height="128" rx="26" fill="#438F17"/>
+  <!-- open book -->
+  <path d="M24 84V44c13-4 28-3 40 5v40c-12-8-27-9-40-5z" fill="#fff"/>
+  <path d="M104 84V44c-13-4-28-3-40 5v40c12-8 27-9 40-5z" fill="#F4F8EE"/>
+  <path d="M64 49v40" stroke="#438F17" stroke-width="3"/>
+  <!-- crown above the book -->
+  <path d="M42 36l8 9 14-17 14 17 8-9-4 16H46z" fill="#EED13F"/>
+  <rect x="46" y="54" width="36" height="4" rx="2" fill="#EED13F"/>
+</svg>

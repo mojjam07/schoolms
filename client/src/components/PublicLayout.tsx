@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { usePublic } from "../lib/useFetch";
 import type { SiteData } from "../lib/types";
+import PoweredBy from "./PoweredBy";
+import Logo from "./Logo";
 
 const NAV = [
   { to: "/", label: "Home", end: true },
@@ -69,9 +71,10 @@ export default function PublicLayout() {
         <div className="mx-auto grid max-w-6xl gap-6 px-5 py-8 text-sm sm:grid-cols-3">
           <div>
             <p className="font-display text-lg font-bold text-white">
-              [School Name]
+              <Logo />
             </p>
             <address className="mt-2 not-italic">[School Address]</address>
+            <PoweredBy className="mt-2" />
           </div>
           <div>
             <p className="font-semibold text-white">Get in touch</p>

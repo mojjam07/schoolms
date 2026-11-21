@@ -1,0 +1,32 @@
+Logo and "Powered by CyberSpark IT Solutions" footer: where to put them
+
+New files (copy over):
+  client/public/logo.svg           placeholder logo in the school's green and gold. Replace with the real logo (same name) when you have it.
+  client/public/favicon.svg        browser-tab icon. Replace the same way.
+  client/src/components/Logo.tsx   <Logo />, <Logo size={32} showName={false} />
+  client/src/components/PoweredBy.tsx   the linked credit line
+  client/src/components/PortalFooter.tsx   slim footer for the portals and sign-in pages
+
+1) client/index.html: inside <head>, replace any existing favicon line with:
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+   (if you later use a PNG favicon, add <link rel="icon" type="image/png" href="/favicon.png" /> too)
+
+2) Public website footer: client/src/components/PublicLayout.tsx
+     import PoweredBy from './PoweredBy';
+   and put this on the last line of the footer, under the copyright line:
+     <PoweredBy className="mt-2" />
+   Header: replace the school-name text in the header link with <Logo />.
+
+3) Signed-in areas: client/src/components/PortalLayout.tsx (used by the admin, teacher, student and parent layouts)
+     import PortalFooter from './PortalFooter';
+   and put <PortalFooter /> at the bottom of the main content area (after the page content, inside the scrolling area, not inside the sidebar).
+   Sidebar or top bar: replace the school-name text with <Logo size={32} />.
+
+4) Sign-in pages: Login.tsx, ForgotPassword.tsx, SetPassword.tsx
+     import PortalFooter from '../components/PortalFooter';
+     import Logo from '../components/Logo';
+   Put <Logo size={56} /> above the form heading and <PortalFooter /> at the bottom of the page.
+
+5) Printed pages (receipt, report card): do nothing. PortalFooter carries the "no-print" class, so it is not printed on school documents.
+
+Send me PublicLayout.tsx, PortalLayout.tsx and Login.tsx (and ForgotPassword.tsx, SetPassword.tsx if you like) and I will return them with these edits already made.
